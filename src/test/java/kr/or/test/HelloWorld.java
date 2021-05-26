@@ -3,8 +3,8 @@ package kr.or.test;
 public class HelloWorld {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("hello java!");
+		// 자바앱은 진입 메서트가 필수.
+		System.out.println("헬로우 자바");
 	}
 
 }

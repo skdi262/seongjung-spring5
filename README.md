@@ -1,3 +1,21 @@
+#### 20210526(수)
+- 스프링 MVC 프로젝트: MVC란 ModelViewController(웹프로그램구조)
+- src/test/java 폴더 : 테스트 작업은 이 폴더에서 해야함. 약속임
+- src/main/java 폴더가 진짜 프로그램 작업 할때 씀
+- javac HeolloWorld.java -encoding UTF-8(인코딩은 언어처리를 뜻함)
+- 위 java컴파일러로 실행한 결과 -> HelloWorld.class 파일이 만들어짐
+- 주의점 : class 파일은 실행 패키지의 루트(최상위)에서 실행해야함.
+- kr.or.package root 폴더 src/test/java 폴더에서 실행해야함
+- java kr.or.test.HelloWorld 클래스를 실행하게 됨
+- 이클립스 나오기 전, javac 컴파일에서 class 프로그램을 만들어서 씀
+- javac는 자바프로그램 컴파일러 - > Class 실행파일을 만듬 (자바환경 jvm )
+- maven 이란 : 웹프로그램 컴파일러 -> 웹 앱 실행파일.war(톰캣에서 실행)
+- 메이븐이 컴파일할때, 자바소스만 컴파일 하는 것이 아니고, 외부 라이브러리도 가져와서 바인딩 (묶어줌) 하게됨 = 패키징 = .war (와르) 파일로 패키징됨.
+- 메이븐이 관리하는 외부 라이브러리 파일(lib) 목록을 저장하는 파일 = pom.xml
+- 외부 라이브러리 파일을 참조하는 방식을 영어로 = dependency 라고 함
+- jar 파일 : JavaARchive. = java앱을 패키징한 파일.
+
+
 #### 20210525(화) 작업
 - 자바 기초 실습 시작! 
 - 자바는 java라는 클래스를 컴파일해 .class 파일을 실행하는 구조
