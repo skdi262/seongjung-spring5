@@ -1,0 +1,76 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev11g class="oracle.dbtools.crest.model.design.storage.oracle.v11g.TableProxyOraclev11g" name="TBL_REPLY" directorySegmentName="seg_0" id="F173F75F-EE55-16CC-6221-46D1190D12A4">
+<createdBy>김성중</createdBy>
+<createdTime>2021-06-01 00:56:04 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+<schemaObject>1779E77D-135A-07B7-0FED-DB70E16C698F</schemaObject>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<segment>5DD06510-8998-202D-0AD8-3198172204BB</segment>
+<tableSpace>34302795-FFEC-1712-CD46-B8F983CC0FDD</tableSpace>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="REPLYER" id="41AAD3A2-8788-1DB9-3AB3-1AB61C16EADE">
+<createdBy>김성중</createdBy>
+<createdTime>2021-06-01 00:56:04 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="UPDATE_DATE" id="696540A0-91BE-1FCE-2BB3-FA44D48C74E0">
+<createdBy>김성중</createdBy>
+<createdTime>2021-06-01 00:56:04 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="REPLY_TEXT" id="AAF96696-D241-070E-324D-B1C90F9AEBCC">
+<createdBy>김성중</createdBy>
+<createdTime>2021-06-01 00:56:04 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="RNO" id="DDF98ECB-47DB-E04C-253E-6D8683C88EC6">
+<createdBy>김성중</createdBy>
+<createdTime>2021-06-01 00:56:04 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="REG_DATE" id="E3C4C7A8-EDD5-2246-FF02-C674B0BF7D7C">
+<createdBy>김성중</createdBy>
+<createdTime>2021-06-01 00:56:04 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="BNO" id="EDC11E82-7B7F-5694-01A7-750C8F38FB11">
+<createdBy>김성중</createdBy>
+<createdTime>2021-06-01 00:56:04 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<indexProxies>
+<IndexProxy class="oracle.dbtools.crest.model.design.storage.oracle.v10g.IndexProxyOraclev10g" name="TBL_REPLY_PK" id="196B87A6-BF3C-51CB-22EA-195CD9A1D28B">
+<createdBy>김성중</createdBy>
+<createdTime>2021-06-01 00:56:04 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+<schemaObject>1779E77D-135A-07B7-0FED-DB70E16C698F</schemaObject>
+<segment>A5D66B29-9B00-2E85-680D-A207A127FCC9</segment>
+<tableSpace>34302795-FFEC-1712-CD46-B8F983CC0FDD</tableSpace>
+</IndexProxy>
+</indexProxies>
+<foreignKeys>
+<ForeignKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.FKProxyOraclev10g" name="TBL_REPLY_TBL_BOARD_FK" id="ED754A90-848A-0E8F-6763-62E05AA02056">
+<createdBy>김성중</createdBy>
+<createdTime>2021-06-01 00:56:04 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+</ForeignKey>
+</foreignKeys>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="TBL_REPLY_PK" id="48158EB9-52DA-0E0C-EABF-3BB191AB4153">
+<createdBy>김성중</createdBy>
+<createdTime>2021-06-01 00:56:04 UTC</createdTime>
+<ownerDesignName>SPRING5</ownerDesignName>
+<segment>A5D66B29-9B00-2E85-680D-A207A127FCC9</segment>
+<tableSpace>34302795-FFEC-1712-CD46-B8F983CC0FDD</tableSpace>
+<existingIndex>196B87A6-BF3C-51CB-22EA-195CD9A1D28B</existingIndex>
+<indexSegment>A5D66B29-9B00-2E85-680D-A207A127FCC9</indexSegment>
+<indexSort>SORTED</indexSort>
+<usingIndex>BY INDEX NAME</usingIndex>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev11g>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML5 실습</title>
+    <style>
+        table, tr, th, td{
+            border: 1px solid black;
+            font-size: 12px;
+        }
+        /* style의 주석 */
+        /* 테이블 태그의 테두리선(border)을 병합 */
+        table {
+            border-collapse: collapse;
+        }
+       
+        /* collapse는 제거하다라는 뜻 */
+    </style>
+        <!-- HTML5 레이아웃 구조
+    header, nav, section, article, aside, footer -->
+    <style>
+        header, nav, section, aside, footer {border: 1px dotted black;}
+        header > h1, footer > h1 {text-align: center;}
+        nav {display: block; height: 60px;}
+        nav > ul > li {
+            float: left; margin-right: 20px;
+        }
+        div.contents {
+            /* 내부의 컨텐츠의 기준되는 외부 요소의 관계 포지션 추가 */
+            position: relative;
+        }
+        section {width: 79%; display: inline-block;}
+        section > article {border:1px solid blue;
+            margin: 10px 20px;}
+        aside {width:20%; height: 100%; 
+        display: inline-block; 
+        position:absolute;
+        right: 0px;}
+        /* 인라인 블럭은 최소한의 본인 자리만 차지 */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Header</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#">menu1</a> </li>
+            <li><a href="#">menu2</a> </li>
+            <li><a href="#">menu3</a> </li>
+        </ul>
+    </nav>
+    <div class="contents">
+        <section>
+        <h2>section</h2>
+        <article>
+            <h2>article1</h2>
+        </article>
+        <article>
+            <h2>article2</h2>
+        </article>
+        </section>
+        <aside>
+        <h2>aside</h2>
+        </aside>
+    </div>
+    <footer>
+        <h2>footer</h2>
+    </footer>
+    <!-- 테이블 태그 제어 : 셀병합 
+    table, tr(table row : 줄 수), td(table data : 칸 수) table>(tr>td*3)*5-->
+    <table>
+        <tr>
+            <th>순번</th>
+            <th>책이름</th>
+            <th>가격</th>
+            <th>판매량</th>
+            <th>판매액</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>HTml</td>
+            <td>7000</td>
+            <td rowspan="2">1000</td>
+            <!-- 세로칸을 병합 -->
+            <td>7000*1000</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>JS</td>
+            <td>8000</td>
+            <!-- <td>500</td> -->
+            <td>8000*500</td>
+        </tr>
+        <tr>
+            <td colspan="4">합계</td>
+            <!-- colspan 가로 칸 셀 병합 -->
+            <td>14,000</td>
+        </tr>
+    </table>
+    
+    <!-- 폼태그 오브젝트, 엘리먼트 사용 -->
+    <!-- 액션 : 데이터 전송(method), radio(file), submit -->
+    <form action="html5.html" method = "get">
+        <input type="text" name="text" id="">
+        <input type="password" name="password" id="">
+        <input type="date" name="date" id="">
+        <input type="color" name="color" id="">
+        <input type="radio" name="radio" id="">
+        <input type="checkbox" name="check1" id="">
+        <input type="checkbox" name="chech2" id="">
+        <input type="radio" name="radio" id="">
+        <input type="file" name="file" id="">
+        <input type="file" name="file" id="">
+        <textarea name="textarea" id="" cols="30" rows="10"></textarea>
+        <input type="button" value="버튼">
+        <input type="reset" value="입력취소">
+        <input type="submit" value="서밋">
+        <!-- 서밋은 자료 전송 -->
+    </form>
+    <!-- 유투브 영상 가져오기 iframe -->
+    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/TBzArOdCwm8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <!-- 컨텐츠 경로... 상대경로, 절대경로 -->
+    <img style="width: 100%;" src="./img/view.jpg" alt="엑박일때 표시할 내용이 여기에">
+    <img style="width: 100%;" src="/test/img/view.jpg" alt="엑박일때 표시할 내용이 여기에">
+    <!-- 영역지정 div : division, 가상링크 = #으로 만든다 -->
+    <div style="background-color: rgb(43, 198, 226);"><a href="#">네이버</a>
+    <a href="#">다음</a></div>
+    <!-- 리스트형 2가지 : ol(ordered list) 정렬된 것, ul(unordered list) 정렬되지 않은 것 -->
+    <ol type="i">
+        <li>헬로 html</li>
+        <li>헬로 html</li>
+        <li>헬로 html</li>
+    </ol>
+    <ul>
+        <li>헬로 html</li>
+        <li>헬로 html</li>
+        <li>헬로 html</li>
+    </ul>
+    <!-- H20, X2 같은 것을 첨자로 보이게 sub(윗)sup(아래) -->
+    <p>H<sub>2</sub>O</sub></p>
+    <p>x<sup>2</sup>=4</p>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>모든 국민은 학문과 예술의 자유를 가진다....</td>
+                <td>태조</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>정부는 예산에 변경을 가할 필요가 있을 때...</td>
+                <td>대조영</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>행정각부의 장은 국무위원 중에서 국무총리...</td>
+                <td>황보항</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>모든 국민은 고문을 받지 아니하며, 형사상...</td>
+                <td>홍경래</td>
+            </tr>
+        
+            <tr>
+                <td>5</td>
+                <td>모든 국민은 신체의 자유를 가진다. 누구든...</td>
+                <td>황진이</td>
+            </tr>
+        </tbody>
+        </table>
+    <!-- 로렘 입숨(립숨)은 작업공간에 채울 내용을 자동으로 생성 -->
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem necessitatibus ratione vero, similique asperiores nam, officiis saepe explicabo consequatur voluptatum quo, praesentium blanditiis magnam commodi minima esse nihil rem rerum.</p>
+    <!-- h는 헤더태그의 약자 -->
+    <!-- p는 문단(paragraph의 약자) -->
+    <!-- 줄바꿈이 이루어지는 영역태그를 블럭영역 -->
+    <!-- 줄바꿈이 이루어 지지 않는 영역은 인라인 블럭 -->
+    <!-- 매칭 == 바인딩 -->
+    <!-- 컬러 #은 16진수로 표시 -->
+    <span style="color : #840dcb">헬로 html</span>
+    <span>헬로 html</span>
+    <hr>
+    <br>
+    <br><br>
+    <span>헬로 HTML1</span>
+    <span>헬로 HTML2</span>
+    <p>헬로 HTML5</p>
+    <h3>헬로 html</h3>
+    <h4>헬로 html</h4>
+    <h5>헬로 html</h5>
+    <h6>헬로 html</h6>
+</body>
+</html>

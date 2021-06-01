@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <!-- utf-8 페이지 언어설정:unicode type format 약자
+    다국어 지원 사이트에서 필수 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 실습</title>
+    <!-- 외부 글꼴 가져오기 -->
+    <link rel = "preconnect"href = "https://fonts.gstatic.com">
+<link href = "https://fonts.googleapis.com/css2? family = Nanum + Gothic : wght @ 700 & display = swap "rel ="stylesheet ">
+<link rel="stylesheet" href="./style.css">
+<style>
+/*  03 선택자 종류
+        범용 선택자 : *(애스터리스크)
+        태그 선택자 : h1, h2, h3
+        class 선택자 : .class 명 사용 가능
+        id 선택자 : #id 명 이어 선언하면 오동작이 발생됨
+        #Class는 복수 가능 ID는 단일 개체
+        가상 선택자 : ::after ::before 
+        가상요소(elment - 태그) : :hover 04 크기 단위 */
+    h1 {background-color: coral;}
+    div *{
+        color: rgb(34, 8, 59);
+    }
+    /* 클래스 선택자는 앞에 .class 붙여야댐 점 중요 */
+    .box-one, .box-two {background-color: crimson;}
+    /* id 선택자는 앞에 #id 붙여야댐 차이 알기 */
+    #box-four, #box-five {background-color: darkgreen;}
+    /* 가상 선택자는 다 만들고 보완할 때 쓰일 듯 */
+    .box-one > p:after {content: " + add";}
+    .box-one > p::before {content:"ADD + ";}
+    /* hover : 마우스 오버했을때(올렸을때) 반응이 나타남 */
+    a:hover {color: darkgrey;}
+    /* 크기단위 font 크기, img 크기, 단위종류 3가지: ~px, em(1.2배수), 
+    rem(root기반 배수) */
+    .box-one {
+        font-size: 8px;
+        /* 웹 브라우저 기본 픽셀 font 크기는 16픽셀. 즉 1em은 16px */
+        /* font-size: 1.5em;  */
+        /* font-size: 1.5rem;*/
+        }
+        /* 브라우저 기본 픽셀은 16의 1.5배가 아니라 상위 요소의 1.5배임
+        즉 아래 1.5em은 12px임 */
+        .box-one p {
+            font-size: 1.5em;
+            font-size: 1.5rem;
+        /* 위에서부터 해석하는 방식을 인터프린터 방식이라고 함.
+        java script는 인터프린터 언어 */
+        }
+        /* 패딩하고 박스사이징 기억 */
+        .box-one { width: 200px;
+        height: 200px;
+        background-color: darkolivegreen ;
+        padding: 20px;  /* 안쪽 여백 : 4가지 방향 12시작 시계방향 */
+        box-sizing: border-box; 
+        border: 10px solid black;
+        margin: 20px 10px 30px 80px;/*바깥 쪽 여백*/
+        /* 바깥 쪽 여백 2가지 방향 상하 / 좌우 */
+        margin: 30px 60px;
+        /* 가로 가운데 정렬하는 방법 auto */
+        margin: 0px;
+        margin: 0px auto;
+        margin: 0px ;
+        position: fixed;
+        /* absolute 자리가 다른 태그와 관련 없이 위치를 잡을 수 있음
+        fixed는 화면에 위치가 고정됨 ex) 팝업창, 검색창 메뉴바 등등 
+        기본은 relative 상대위치로 되어 있음.*/
+        margin-top: 20px;
+        margin-left: 20px;
+        }
+        .box-two {
+            width : 200px;
+            height: 200px;
+            background-color: darkslateblue;
+            box-sizing: border-box; 
+        }
+</style>
+</head>
+<body>
+
+    <!--
+        10 크롬 확장 프로그램으로 컬러 피커보기보기
+        09 구글 폰트 사용하기 : 나눔 고딕체 사용
+        08 위치 : 고정, 절대 위치, 상대 위치 (기준)
+        07 정렬 : 가로 가운데 정렬
+        06 크기 크기 : 여백 (안쪽 패딩, 바깥 쪽 마진)
+        05 박스 크기 : 박스 크기에 크기 조절, 패딩 크기 dddd무시
+        04 크기 단위 : px, em (부모 영역의 2 배), rem (루트 영역의 2 배)
+        03 선택자 종류 사용
+        02 CSS 용어 설명 : h $ {헬로 CSS} * 6
+        #Cascade style Sheet 계층형 스타일 표
+        경로 Path,(상대경로 절대경로)
+        01 css 적용하는 3 가지 방법 확인, 내부 css, 외부 css, 인라인 css -->
+    <h1>헬로 CSS</h1>
+    <div class="box-one"><p style="color: blanchedalmond;"><a href="#">상단으로 이동</a>        
+    </p></div>
+    <div class="box-two"><a href="">two two two</a></div>
+    <div class="box-three">three</div>
+    <div id="box-four">four</div>
+    <div id="box-five">five</div>
+
+    <p><span style="color: crimson;">Lorem ipsum</span> dolor sit amet consectetur adipisicing elit. Ipsam, voluptas quisquam laudantium sunt veritatis assumenda placeat doloremque nostrum cumque debitis totam voluptatum consectetur et similique at soluta labore voluptate eum?</p>
+    <p><span style="color: crimson;">Lorem ipsum</span> dolor sit amet consectetur adipisicing elit. Ipsam, voluptas quisquam laudantium sunt veritatis assumenda placeat doloremque nostrum cumque debitis totam voluptatum consectetur et similique at soluta labore voluptate eum?</p>
+</body>
+</html>

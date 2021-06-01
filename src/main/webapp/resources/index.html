@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+<!-- 
+주석처리 ctrl + 슬래쉬 
+주석처리방법, 디버그방법(자바스크립트부터 있음), crud
+이 세가지 반드시 알기 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 메타태그 : 사진의 정보를 표시하는 데 부터 시작
+    메타태그는 주 컨텐츠 내용은 아니고, 컨텐츠의 정보를 표시 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 뷰포트는 반응형 홈페이지에서 필수 항목 -->
+    <title>브라우저 제목으로 표시</title>
+    <!-- jQuery코어 임포트(import 가져오기) -->
+    <script src="/resources/home/js/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <!-- jQuery 기본 구조 만들고, 홈페이지로 이동 시키기 -->
+    <script>
+        $(document).ready(function(){
+            //루트 홈페이지로 접근할 때 replace함수로 홈페이지로 이동 처리.
+            location.replace('/resources/home/index.html');
+        });
+    </script>
+</body>
+</html>
