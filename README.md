@@ -1,3 +1,8 @@
+#### 20210602(수)
+- views/home/index.jsp 엑박 처리 후 분해(header, footer, body)
+- 4장 패키지와예외처리 실습
+- admin부터 프로그램 작업 시작
+
 #### 20210601(화).
 - 에러 : 404(file not found. 경로이상), 500(java program 에러)
 - 프로젝트의 버전을 올린다. -> 외부 라이브러리를 추가 -> pom.xml

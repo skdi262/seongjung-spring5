@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 	//스프링빈에서는 logger로 debug 함. - 로거 객체를 만듬
-//	private Logger logger = Logger.
-//	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+//	private Logger logger = Logger
+	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 //	
 	/**
 	 * return 값으로 view를 선택해 화면에 결과를 랜더링 함.
@@ -31,8 +31,9 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) { //콜백 메서드, 자동실행됨.
 		String jspVar = "@서비스 (DB)에서 처리한 결과";		
-		model.addAttribute("jspObject", jspVar); //home.jsp파일로 자료를 전송하는 기능 model		
-		return "home"; //확장자가 생략. JSP가 생략
+		model.addAttribute("jspObject", jspVar); //home.jsp파일로 자료를 전송하는 기능 model	
+		logger.info("스프링로고사용 : " + jspVar); //System.out 대신 logger 객체를 사용
+		return "home/index"; //확장자가 생략. JSP가 생략
 	}
 	
 }
