@@ -1,5 +1,7 @@
 package com.edu.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +31,7 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) { //콜백 메서드, 자동실행됨.
 		String jspVar = "@서비스 (DB)에서 처리한 결과";		
-		model.addAttribute("jspObject", jspVar ); //home.jsp파일로 자료를 전송하는 기능 model		
+		model.addAttribute("jspObject", jspVar); //home.jsp파일로 자료를 전송하는 기능 model		
 		return "home"; //확장자가 생략. JSP가 생략
 	}
 	

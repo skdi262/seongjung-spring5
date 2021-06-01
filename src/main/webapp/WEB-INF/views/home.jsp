@@ -10,6 +10,8 @@
 	Hello world!  
 </h1>
 
-<P>  The time on the server is ${serverTime}. </P>
+<P>  The time on the server is ${jspObject} @ 서비스 Db에서 처리한결과
+<!-- jsp에서 컨트롤러에서 넘어온 자바 자료 Object를 출력 -->
+ </P>
 </body>
 </html>
