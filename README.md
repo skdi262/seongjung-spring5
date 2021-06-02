@@ -1,3 +1,6 @@
+#### 20210603(목)
+- JUnit 테스트 : 오라클 연동 후 회원관리 부분 CRUD테스트 
+
 #### 20210602(수)
 - views/home/index.jsp 엑박 처리 후 분해(header, footer, body)
 - 4장 패키지와예외처리 실습
@@ -9,6 +12,10 @@
 - Controller클래스 + home/index.jsp 한 쌍입니다. 그래서 Controller클래스에서 만든 변수를 index.jsp에서 사용이 가능하게됨.
 ㄴ 안드로이드 앱 = 액티비티(java) + 레이아웃(xml)화면
 - 개발 순서 : ERD 제작 -> html 제작 -> jsp 제작(현재:관리자단 작업 후 사용자단)
+- junit(java unit test) 자바 단위 테스트 : proto type 만들기 - JUNIT CRUD 작업 후 본격작업시작
+- logger의 레벨 : DEBUG > INFO > WARN > ERROR > FATAL
+- 개발할 때 : Debug 로거 레벨을 설정
+- 납품할 때 : WARN으로 로거레벨을 변경
 
 
 #### 20210601(화).

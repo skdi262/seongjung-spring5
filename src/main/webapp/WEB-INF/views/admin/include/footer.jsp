@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <!-- 이후 footer 영역 -->
+<!-- 이후 footer.jsp영역 -->
   <footer class="main-footer">
     <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong>
     All rights reserved.
@@ -9,37 +9,35 @@
     </div>
   </footer>
 
-  <!-- Control Sidebar 오른쪽 메뉴판 클릭시 나오는 내용 -->
+  <!-- Control Sidebar 오른쪽 바둑판베뉴클릭시 나오는 내용 -->
   <aside class="control-sidebar control-sidebar-dark">
-   <!-- Demo.js 출력내용이 존재, 근데 새로 만들거임 ㅋ -->
-   <div class="text-center mt-3" >
-   <h5>로그아웃~!</h5><hr class="mb-2"/>
-   <button type="btn" class="btn btn-primary" id="btn_logout">로그아웃</button>
+    <!-- demo.js에서 출력할 내용이 존재, demo.js사용않함. -->
+    <div class="text-center mt-4">
+    <h5>로그아웃</h5><hr class="mb-2"/>
+    <button type="button" class="btn btn-primary" id="btn_logout">로그아웃</button>
+    </div>
   </aside>
-</div>
   <!-- /.control-sidebar -->
 </div>
 <!-- ./wrapper -->
-
 <!-- jQuery 제이쿼리 코어 -->
 <script src="/resources/admin/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 제아쿼리 UI코어-->
+<!-- jQuery UI 1.11.4 제이쿼리 UI코어 -->
 <script src="/resources/admin/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
-<!-- Bootstrap 부트스트랩 4 코어 4 -->
+<!-- Bootstrap 4 부트스트랩4 코어 -->
 <script src="/resources/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Tempusdominus Bootstrap 4 ㄷㅅㄱㄹ 스타아ㅏㅏ-->
-<!-- <script src="/resources/admin/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script> -->
-<!-- Summernote 웹에디터 코어 -->
+<!-- Summernote 섬머노트웹에디터 코어 -->
 <script src="/resources/admin/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars 왼쪽 스크롤 메뉴 코어-->
+<!-- overlayScrollbars 왼쪽스크롤메뉴 코어 -->
 <script src="/resources/admin/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App 어드민 LTE 테맛 ㅡ타일 -->
+<!-- AdminLTE App AdminLTE코어 -->
 <script src="/resources/admin/dist/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes 오른 쪽 메뉴 코어-->
+<!-- AdminLTE for demo purposes 오른쪽메뉴-로그아웃사용 코어: 사용안함. -->
 <!-- <script src="/resources/admin/dist/js/demo.js"></script> -->
 </body>
 </html>
+    
