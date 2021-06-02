@@ -9,10 +9,18 @@ class MemberVO {
 	private String name;
 	private int age;
 	private String phoneNum;
-	//위 프라이빗 멤버빈수를 입출력 구현 메서드를 만듭니다.
+	//위 프라이빗 멤버변수를 입출력 구현 메서드를 만듭니다.
+	//to String생성
+	@Override
+	public String toString() {
+		return "MemberVO 변수값출력 [name=" + name + ", age=" + age + ", phoneNum=" + phoneNum + "]";
+	}
+	
+	
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
