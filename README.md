@@ -2,6 +2,14 @@
 - views/home/index.jsp 엑박 처리 후 분해(header, footer, body)
 - 4장 패키지와예외처리 실습
 - admin부터 프로그램 작업 시작
+- 일반홈페이지(cafe24)- URL직접접근이 가능(보안 위험)
+- MVC웹 프로젝트 차이점 - URL직접접근이 불가능(보안위험낮음) = 관공서,대학,은행등 사용
+- MVC웹 프로젝트에도 직접접근이 가능한 resources 폴더. - 정적 콘텐츠(static)를 모아놓음.
+- views 폴더처럼 직접접근이 불가능한 콘텐츠는 Controller로 접근(라우터역할)
+- Controller클래스 + home/index.jsp 한 쌍입니다. 그래서 Controller클래스에서 만든 변수를 index.jsp에서 사용이 가능하게됨.
+ㄴ 안드로이드 앱 = 액티비티(java) + 레이아웃(xml)화면
+- 개발 순서 : ERD 제작 -> html 제작 -> jsp 제작(현재:관리자단 작업 후 사용자단)
+
 
 #### 20210601(화).
 - 에러 : 404(file not found. 경로이상), 500(java program 에러)
