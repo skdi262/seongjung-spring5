@@ -123,6 +123,12 @@
 			<version>${org.springframework-version}</version>
 		</dependency>	
 		<!-- 이후는 기능 추가 시 붙여넣기 하면댐 ㅋ -->	    
+				<!-- 자바 JDBC 사용 -->
+			<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>				
 	</dependencies>
     <build>
         <plugins>

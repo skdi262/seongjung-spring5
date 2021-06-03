@@ -1,4 +1,10 @@
 #### 20210603(목)
+- 스프링에서 오라클 연동 순서 2가지 : 
+ㄴ 1. jdbc(java Database Connection) 확장 모듈을  pom에 추가
+ㄴ 2. 오라클 접속 드라이버 확장 모듈을 jar파일을 직접 추가
+ㄴ 3. root-context 파일에 오라클 커넥션 빈(스프링 클래스)을 추가
+- 스프링 관리하는 클래스 추가 방법 1. : @Controller, @Repository, @Service, 등등...
+- 스프링 관리하는 클래스 추가 방법 2. : -context.xml에서 빈(bean 태그)을 추가하면, 스프링 클래스
 - JUnit 테스트 : 오라클 연동 후 회원관리 부분 CRUD테스트 
 - admin 회원관리(jsp 디자인)부터 프로그램작업 시작 예정.
 - 오라클 04장부터 CRUD 실습 예정.
