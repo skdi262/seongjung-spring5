@@ -122,7 +122,13 @@
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>	
-		<!-- 이후는 기능 추가 시 붙여넣기 하면댐 ㅋ -->	    
+		<!-- 이후는 기능 추가 시 붙여넣기 하면댐 ㅋ -->	  
+		<!-- 콘솔에서 SQL로그화긴하는 log4j 드라이버 추가-->  
+		<dependency>
+			<groupId>org.bgee.log4jdbc-log4j2</groupId>
+			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
+			<version>1.16</version>
+		</dependency>		
 				<!-- 자바 JDBC 사용 -->
 			<dependency>
 			<groupId>org.springframework</groupId>
