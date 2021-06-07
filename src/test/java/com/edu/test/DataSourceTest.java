@@ -33,11 +33,17 @@ public class DataSourceTest {
 	//dataSource 객체는 데이터베이스 객체를 pool로 저장해서 사용할때 DataSource 클래스를 사용
 	@Inject //인젝트는 스프링에서 객체를 만드는 방법
 	DataSource dataSource; //Inject로 객체를 만들면 메모리 관리를 스프링이 대신해줌
+	
+	//스프링 코딩 순서 - M,V,C 사이에 데이터를 임시 저장하는 공간 
+	//MemberVO.java VO 클래스 생성 후 DB 쿼리 사용
+	@Test
+	public void selectMember() throws Exception{
+	}
 	@Test 
 	public void oldQueryTest() throws Exception{
 		//스프링빈을 사용하지 않을때 예전 방식 : 코테는 스프링설정을 안 쓰고 , 직접 DB의 ID/암호를 입력
 		Connection connection =null;
-		connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521/XE","XE","apmsetup");
+		connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521/XE","XE2","apmsetup");
 		logger.debug("데이터베이스 직접 접속이 성공했습니다. DB종류는 " + connection.getMetaData().getDatabaseProductName());
 		//직접 쿼리를 날립니다. 날리기 전 쿼리문장하나 만들어 줌
 		Statement stmt  = connection.createStatement();
@@ -59,7 +65,6 @@ public class DataSourceTest {
 		rs = null;
 		connection = null;//메모리 초기화
 	}
-	
 	@Test
 	public void dbConnectionTest() throws Exception{
 		//데이터 베이스 커넥션 테스트 : 설정은 root-context의 빈(스프링클래스)를 이용
