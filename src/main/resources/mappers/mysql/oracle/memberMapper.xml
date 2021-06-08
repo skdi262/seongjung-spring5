@@ -7,5 +7,6 @@ memberMapper.selectMember -->
 <mapper namespace="memberMapper">
 <!-- 무조건 조회 -->
 <select id="selectMember" resultType="com.edu.vo.MemberVO">
+select * from tbl_member
 </select>
 </mapper>

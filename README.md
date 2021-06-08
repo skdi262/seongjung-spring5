@@ -1,6 +1,31 @@
 #### 20210607(화)
+- 페이징에 사용되는 변수(쿼리변수 + VO변수)
+- queryStartNo,queryPerPageNum,page,StartPage, endPage
+- 검색에 사용되는 변수 (쿼리변수만):
+
+```SQL 쿼리로 페이징을 구현해 변수로 삼을 것을 정의
+--PageVO의 멤버 변수로 사용
+SELECT TableB.* FROM (
+SELECT ROWNUM AS RNUM, TableA.* FROM (
+SELECT * FROM tbl_member
+where user_id like '%admin%'
+or user_name like '%사용자'
+order by reg_date DESC
+) TableA WHERE ROWNUM <= (page*b) + b
+) TableB WHERE TableB.RNUM > page*b
+-- 페이징 쿼리에서 필요한 변수는 2개 
+-- 현재페이지변수 : page*b == queryStartNo
+-- 1페이지당 보여줄 개수의 변수 : b = 10 : queryPerPageNum
+-- PageVO에서 필요한 추가 변수 : page
+-- UI하단의 페이지 선택개수의 변수 c : perPageNum
+-- perPageNum 변수 받아서 StartPage, endPage를 구해서
+-- 하단의 페이지선택 번호 출력 
+```
 - 스프링부트에서는 4번 Service클래스가 없이 바로 컨트롤러로 이동함.
 - Junit에서 작업한 내용을 CRUD 테스트
+- IF 인터페이스 : 복자반 구현클래스를 간단히 구조화 시켜 관리하기 편하게 정리하는 역할
+- 캡슐화와 구현과 관련 - 캡슐화는 구현내용은 몰라도 , 이름만 보고 사용하게 만든 것.
+- 게시물을 등록하는 서비스 1개 구성 : (tbl_board-DAO1, tbl_attach-DAO2)
 
 #### 20210607(월) 작업
 - 오라클 기초 마무리: 시퀀스(스프링에서 사용 - AI 자동증가기능)

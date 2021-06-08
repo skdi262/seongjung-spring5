@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
-
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,6 +44,11 @@ public class DataSourceTest {
 	@Test
 	public void selectMember() throws Exception {
 		//회원관리 테이블에서 더미로 입력한 100개의 레코드를 출력 메서드 테스트->회원관리목록이 출력
+		//검색기능, 페이징기능 여기서 구현. 1페이지에 10명씩 나오게 변경
+		//현재 페이지 변수, 검색어 임시 저장 공간 - > DB에 페이지 조건, 검색조건
+		//변수를 2~3개 이상은 바로 String변수로 처리하지않고, VO 만들어서 사용
+		//PageVO.java 클래스를 만들어서 페이징처리변수와 검색어 변수를 선언,GET/SET도
+		//PageVO만들기 전 SQL쿼리로 가상으로 페이지를 한 번 구현해보면서 필요한 변수를 생성
 		List<MemberVO> listMember = memberService.selectMember();
 		listMember.toString();
 	}
