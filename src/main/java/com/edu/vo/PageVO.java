@@ -20,6 +20,13 @@ public class PageVO {
 	private String search_keyowrd; //jsp에서 받은 검색어
 	private String search_type; //검색 조건에 해당하는 쿼리전용변수
 	
+	@Override
+	public String toString() {
+		return "PageVO [queryStartNo=" + queryStartNo + ", queryPerPageNum=" + queryPerPageNum + ", page=" + page
+				+ ", perPageNum=" + perPageNum + ", totalCount=" + totalCount + ", startPage=" + startPage
+				+ ", endPage=" + endPage + ", prev=" + prev + ", next=" + next + ", search_keyowrd=" + search_keyowrd
+				+ ", search_type=" + search_type + "]";
+	}
 	public int getQueryStartNo() {
 		//jsp에서는 1,2,3,... 으로 받지만
 		//쿼리에서는 0,1,2로 사용되기 떄문에 page*페이지당보여줄개수
@@ -62,6 +69,13 @@ public class PageVO {
 	// 만약 11페이지를 클릭하면 , 임시 끄텦이지가 20. 확인 위 tmepEnd 변수 값으로 아래 내용
 		this.startPage = (tempEnd - this.perPageNum) + 1;
 		//1-10까지는 jsp에 클릭했을때, 시작페이지가 1페이지, 11부터는 시작페이지가 11이되게 만들어줌
+		if(tempEnd*this.queryPerPageNum > this.totalCount) {
+			this.endPage = (int)Math.ceil(this.totalCount/(double)this.queryPerPageNum);
+		} else {
+			this.endPage = tempEnd;//엔드페이지
+		}
+		this.prev = (this.startPage != 1);//start가 1페이지일땐 뜨면 안되니까
+		this.next = this.endPage*this.queryPerPageNum < this.totalCount;
 	}
 	public int getStartPage() {
 		return startPage;

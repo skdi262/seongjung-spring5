@@ -18,6 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.edu.service.IF_MemberService;
 import com.edu.vo.MemberVO;
+import com.edu.vo.PageVO;
 
 /**
  * 이 클래스는 오라클과 연동해서 CRUD를 테스트하는 클래스 입니다.
@@ -49,7 +50,15 @@ public class DataSourceTest {
 		//변수를 2~3개 이상은 바로 String변수로 처리하지않고, VO 만들어서 사용
 		//PageVO.java 클래스를 만들어서 페이징처리변수와 검색어 변수를 선언,GET/SET도
 		//PageVO만들기 전 SQL쿼리로 가상으로 페이지를 한 번 구현해보면서 필요한 변수를 생성
-		List<MemberVO> listMember = memberService.selectMember();
+		PageVO pageVO = new PageVO();
+		pageVO.setPage(1);
+		pageVO.setPerPageNum(10);
+		pageVO.setQueryPerPageNum(10);
+		pageVO.setTotalCount(memberService.countMember());
+		pageVO.setSearch_keyowrd("admin");
+		//현재 pageVO 객체의 값 확인
+		logger.info("디버그: "+pageVO.toString());
+		List<MemberVO> listMember = memberService.selectMember(pageVO);
 		listMember.toString();
 	}
 	
