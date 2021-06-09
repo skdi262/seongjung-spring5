@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.sql.DataSource;
+
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,23 +42,47 @@ public class DataSourceTest {
 	@Inject //MemberService서비스를 주입받아서 객체를 사용합니다.(아래)
 	private IF_MemberService memberService;
 	
+	@Test
+	public void deleteMember() throws Exception {
+		memberService.deleteMember("user_del");
+	}
+	@Test
+	public void insertMember() throws Exception {
+		MemberVO memberVO = new MemberVO();
+		//insert쿼리에 저장할 객체
+		memberVO.setUser_id("user_del");
+		memberVO.setUser_pw("1234");//스프링시큐리티5버전으로 암호화로 처리예정
+		memberVO.setEmail("user@test.com");
+		memberVO.setPoint(10);
+		memberVO.setEnabled(true);
+		memberVO.setLevels("ROLE_USER");
+		memberVO.setUser_name("삭제할사용자");
+		memberService.insertMember(memberVO);
+		selectMember();
+	}
 	//스프링 코딩 작업 순서(칠판으로 옮겨 놓았습니다.)
 	@Test
 	public void selectMember() throws Exception {
 		//회원관리 테이블에서 더미로 입력한 100개의 레코드를 출력 메서드 테스트->회원관리목록이 출력
-		//검색기능, 페이징기능 여기서 구현. 1페이지에 10명씩 나오게 변경
-		//현재 페이지 변수, 검색어 임시 저장 공간 - > DB에 페이지 조건, 검색조건
-		//변수를 2~3개 이상은 바로 String변수로 처리하지않고, VO 만들어서 사용
-		//PageVO.java 클래스를 만들어서 페이징처리변수와 검색어 변수를 선언,GET/SET도
-		//PageVO만들기 전 SQL쿼리로 가상으로 페이지를 한 번 구현해보면서 필요한 변수를 생성
+		//현재100명 검색기능, 페이징기능 여기서 구현. 1페이지에 10명씩 나오게변경
+		//현재 몇페이지, 검색어 임시저장 공간 -> DB에 페이징조건문, 검색조건문
+		//변수를 2-3이상은 바로 String변수로 처리하지않고, VO만들어 사용.
+		//PageVO.java클래스를 만들어서 페이징처리변수와 검색어변수 선언,Get/Set생성
+		//PageVO만들기전 SQL쿼리로 가상으로 페이지을 한번 구현해 보면서, 필요한 변수 만들어야 합니다.
+		//pageVO 객체를 만들어서 가상으로 초기값을 입력합니다.(아래)
 		PageVO pageVO = new PageVO();
-		pageVO.setPage(1);
-		pageVO.setPerPageNum(10);
-		pageVO.setQueryPerPageNum(10);
-		pageVO.setTotalCount(memberService.countMember());
-		pageVO.setSearch_keyowrd("admin");
-		//현재 pageVO 객체의 값 확인
-		logger.info("디버그: "+pageVO.toString());
+		
+		pageVO.setPage(1);//기본값으로 1페이지를 입력합니다.
+		pageVO.setPerPageNum(10);//UI하단사용 페이지 개수
+		pageVO.setQueryPerPageNum(10);//쿼리사용 페이지당 개수
+		pageVO.setTotalCount(memberService.countMember());//테스트하려고, 100명을 입력합니다.
+		pageVO.setSearch_type("user_id");//검색타입 all, user_id, user_name
+		pageVO.setSearch_keyword("user_del");//검색어
+		//위 setTotalCount위치가 다른 설정보다 상단이면, 에러발생 왜냐하면, calcPage()가 실행되는데, 실행시 위 3가지변수값이 저정되 있어야지 계산메서드가 정상작동되기때문입니다.
+		//위토탈카운트변수값은 startPage, endPage계산에 필수입니다. 
+		//매퍼쿼리<-DAO클래스<-Service클래스<-JUnit(나중엔 컨트롤러에서작업) 이제 역순으로 작업진행
+		//더 진행하기 전에 현재 pageVO객체에는 어떤값이 들어 있는 확인하고 사용하겠습니다.(아래)
+		logger.info("디버그: "+ pageVO.toString());
 		List<MemberVO> listMember = memberService.selectMember(pageVO);
 		listMember.toString();
 	}
@@ -66,7 +91,7 @@ public class DataSourceTest {
 	public void oldQueryTest() throws Exception {
 		//스프링빈을 사용하지 않을때 예전 방식: 코딩테스트에서는 스프링설정을 안쓰고, 직접 DB 아이디/암호 입력
 		Connection connection = null;
-		connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521/XE","XE","apmsetup");
+		connection = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521/XE","XE2","apmsetup");
 		logger.debug("데이터베이스 직접 접속이 성공 하였습니다. DB종류는 "+ connection.getMetaData().getDatabaseProductName());
 		//직접쿼리를 날립니다. 날리기전 쿼리문장 객체생성statement
 		Statement stmt = connection.createStatement();

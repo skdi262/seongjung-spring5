@@ -1,3 +1,6 @@
+#### 20210609(수)
+- <![CDATA[내용]]> : my바티스는 부등호 사용이 안됨. 부등호 사용 하려면 부등호 있는 내용을 저렇게 넣어줘야됨
+
 #### 20210607(화)
 - 페이징에 사용되는 변수(쿼리변수 + VO변수)
 - queryStartNo,queryPerPageNum,page,StartPage, endPage

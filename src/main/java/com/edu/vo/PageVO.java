@@ -17,14 +17,14 @@ public class PageVO {
 	private boolean prev; // UI하단에 이전페이지 게시물 관리
 	private boolean next; // UI하단에 다음 페이지로 이동이 가능한 지 판별
 //	여기서부턴 검색
-	private String search_keyowrd; //jsp에서 받은 검색어
+	private String search_keyword; //jsp에서 받은 검색어
 	private String search_type; //검색 조건에 해당하는 쿼리전용변수
 	
 	@Override
 	public String toString() {
 		return "PageVO [queryStartNo=" + queryStartNo + ", queryPerPageNum=" + queryPerPageNum + ", page=" + page
 				+ ", perPageNum=" + perPageNum + ", totalCount=" + totalCount + ", startPage=" + startPage
-				+ ", endPage=" + endPage + ", prev=" + prev + ", next=" + next + ", search_keyowrd=" + search_keyowrd
+				+ ", endPage=" + endPage + ", prev=" + prev + ", next=" + next + ", search_keyword=" + search_keyword
 				+ ", search_type=" + search_type + "]";
 	}
 	public int getQueryStartNo() {
@@ -101,11 +101,11 @@ public class PageVO {
 	public void setNext(boolean next) {
 		this.next = next;
 	}
-	public String getSearch_keyowrd() {
-		return search_keyowrd;
+	public String getSearch_keyword() {
+		return search_keyword;
 	}
-	public void setSearch_keyowrd(String search_keyowrd) {
-		this.search_keyowrd = search_keyowrd;
+	public void setSearch_keyword(String search_keyword) {
+		this.search_keyword = search_keyword;
 	}
 	public String getSearch_type() {
 		return search_type;

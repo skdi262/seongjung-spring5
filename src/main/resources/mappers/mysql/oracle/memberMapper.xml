@@ -1,16 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<!-- Ctrl+space 누르면 입력 힌트가 나온다. -->
-<!-- 이 매퍼는 2개의 객체를 바인딩 시키는 것을 매핑이라고 합니다.
-이 메퍼는 회원 관리 CRUD를 처리하는 쿼리를 모아놓는 파일. 검색, 페이징처리기능 등등
-memberMapper.selectMember -->
+<!-- Ctrl+Space 누르시면 입력힌트가 출력 -->
+<!-- 이 매퍼는 2개의 객체를 바인딩시키는 것을 매핑이라고 합니다.
+이 매퍼는 회원관리 CRUD(입력,조회,수정,삭제)를 처리하는 쿼리를 모아놓은 파일.
+이번주 조회기능중 검색기능, 페이징처리기능을 실습하시는 것이 핵심.
+ -->
 <mapper namespace="memberMapper">
+<!-- 공통쿼리 마이바티스 include문사용, 
+if조건문에서 test조건부분에 문자열비교시 '문자열'.toString()형변환함수는 필수 필요 없으면 비교불가. 
+다음처럼 비교해도 가능합니다. test="''.equals(search_type)", 지금사용X 스프링클래스에서 사용O
+참고로 equals메서드를 사용하면 null비교까지 포함 됩니다.
+-->
+<sql id="sqlWhere">
+	<if test="search_type != '' and search_type != null">
+    WHERE 
+    	 <if test="search_type == 'all'.toString()">
+		    user_id LIKE '%'||#{search_keyword}||'%'
+		    OR user_name LIKE '%'||#{search_keyword}||'%'
+	     </if>
+	     <if test="search_type == 'user_id'.toString()">
+	     	user_id LIKE '%'||#{search_keyword}||'%'
+	     </if>
+	     <if test="search_type == 'user_name'.toString()">
+	     	user_name LIKE '%'||#{search_keyword}||'%'
+	     </if>
+    </if>
+</sql>
+<!-- jps폼에서 전송받은 user_id 데이터를 이용해 db에 해당 레코드를 삭제 -->
+<delete id="deleteMember">
+delete from tbl_member where user_id = #{user_id}
+</delete>
+<!-- jsp폼에서 전송받은 memberVO객체의 데이터를 DB에 insert합니다(아래) -->
+<insert id="insertMember">
+insert into tbl_member
+(
+user_id,
+user_pw,
+user_name,
+email,
+point,
+enabled,
+levels,
+reg_date
+) 
+values 
+(
+#{user_id},
+#{user_pw},
+#{user_name},
+#{email},
+#{point},
+#{enabled},
+#{levels},
+systimestamp
+)
+</insert>
 <select id="countMember" resultType="int">
 select count(*) from tbl_member
 </select>
-<!-- pageVO 받아서 처리 무조건 조회 -->
+<!-- pageVO 받아서 처리하는 조회 쿼리 -->
 <select id="selectMember" resultType="com.edu.vo.MemberVO">
-select * from tbl_member
-where user_id= #{search_keyowrd}
+SELECT TableB.* FROM
+(
+    SELECT ROWNUM AS RNUM, TableA.* FROM
+    (
+        SELECT * FROM tbl_member
+        <include refid="sqlWhere" />
+        ORDER BY reg_date DESC
+    ) TableA
+<![CDATA[ 
+    WHERE ROWNUM <= (#{queryStartNo}*#{queryPerPageNum})+#{queryPerPageNum}
+) TableB WHERE TableB.RNUM > #{queryStartNo}*#{queryPerPageNum}
+]]>
 </select>
 </mapper>
