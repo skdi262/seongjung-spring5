@@ -26,6 +26,25 @@ if조건문에서 test조건부분에 문자열비교시 '문자열'.toString()�
 	     </if>
     </if>
 </sql>
+<!-- jsp에서 수정한 내용을 입력하는 쿼리 -->
+<update id="updateMember">
+update tbl_member set
+email = #{email},
+enabled = #{enabled},
+levels = #{levels},
+point = #{point},
+update_date = systimestamp,
+<if test="user_pw != ''">
+user_pw = #{user_pw},
+</if>
+user_name = #{user_name}
+where user_id = #{user_id}
+</update>
+<!-- jsp 상세보기에 출력할 내용을 뽑아내는 쿼리 -->
+<select id="readMember" resultType ="com.edu.vo.MemberVO">
+select * from tbl_member where user_id = #{user_id}
+
+</select>
 <!-- jps폼에서 전송받은 user_id 데이터를 이용해 db에 해당 레코드를 삭제 -->
 <delete id="deleteMember">
 delete from tbl_member where user_id = #{user_id}
@@ -34,25 +53,11 @@ delete from tbl_member where user_id = #{user_id}
 <insert id="insertMember">
 insert into tbl_member
 (
-user_id,
-user_pw,
-user_name,
-email,
-point,
-enabled,
-levels,
-reg_date
+user_id,user_pw,user_name,email,point,enabled,levels,reg_date
 ) 
 values 
 (
-#{user_id},
-#{user_pw},
-#{user_name},
-#{email},
-#{point},
-#{enabled},
-#{levels},
-systimestamp
+#{user_id},#{user_pw},#{user_name},#{email},#{point},#{enabled},#{levels},systimestamp
 )
 </insert>
 <select id="countMember" resultType="int">
