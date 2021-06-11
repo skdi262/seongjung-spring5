@@ -30,7 +30,7 @@ public class PageVO {
 	public int getQueryStartNo() {
 		//jsp에서는 1,2,3,... 으로 받지만
 		//쿼리에서는 0,1,2로 사용되기 떄문에 page*페이지당보여줄개수
-		queryStartNo = (this.page-1)*queryPerPageNum;
+		queryStartNo = this.page-1;
 		return queryStartNo;
 	}
 	public void setQueryStartNo(int queryStartNo) {
