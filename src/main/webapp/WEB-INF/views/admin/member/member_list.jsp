@@ -74,8 +74,7 @@
               	</c:if>
                 <!-- jstl반복문으로 listMember객체 바인딩 -->
                 <c:forEach var="memberVO" items="${listMember}">
-                <tr style="cursor: pointer;" onclick="location.replace('/admin/member/member_view?page=${pageVO.page}&search_keyword=${pageVO.search_keyword}&
-${memberVO.user_id}');">
+                <tr style="cursor: pointer;" onclick="location.replace('/admin/member/member_view?page=${pageVO.page}&search_type=${pageVO.search_type}&search_keyword=${pageVO.search_keyword}&user_id=${memberVO.user_id}');">
                   <td><c:out value="${memberVO.user_id}" /></td>
                   <td><c:out value="${memberVO.user_name}" /></td>
                   <td><c:out value="${memberVO.email}" /></td>
@@ -91,7 +90,7 @@ ${memberVO.user_id}');">
         <!-- //콘텐츠 내용 -->
         <!-- 페이징 처리 -->
         <div class="col-12 text-right">
-          <a href="/admin/member/member_insert" class="btn btn-primary mb-3">회원등록</a>
+          <a href="/admin/member/member_insert_form?page=${pageVO.page}&search_keyword=${pageVO.search_keyword}&search_type=${pageVO.search_type}" class="btn btn-primary mb-3">회원등록</a>
           
           <ul class="pagination justify-content-center">
           	  

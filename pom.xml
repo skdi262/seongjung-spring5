@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.edu</groupId>
 	<artifactId>controller</artifactId>
-	<name>seongjung-spring5</name>
+	<name>kimilguk-spring5</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
@@ -62,7 +62,7 @@
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<version>1.2.16</version>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.mail</groupId>
@@ -116,23 +116,29 @@
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
 			<scope>test</scope>
-		</dependency>    
+		</dependency>  
+		
+		<!-- 이후는 기능추가시 늘어나는 영역 -->
 		<!-- 스프링 Test사용 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework-version}</version>
-		</dependency>	
-		<!-- 이후는 기능 추가 시 붙여넣기 하면댐 ㅋ -->	  
-		<!-- 콘솔에서 SQL로그화긴하는 log4j 드라이버 추가-->  
+		</dependency>
+		<!-- 자바 JDBC사용 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		<!-- 콘솔에서 SQL로그를 확인하는 용도의 log4jdbc 드라이버추가 -->
 		<dependency>
 			<groupId>org.bgee.log4jdbc-log4j2</groupId>
 			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
 			<version>1.16</version>
-		</dependency>		
-				<!-- 자바 JDBC 사용 -->
-				<!-- 마이바티스 추가 -->
-				<dependency>
+		</dependency>
+		<!-- 마이바티스 모듈 추가(아래) -->
+		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis</artifactId>
 			<version>3.4.6</version>
@@ -142,12 +148,7 @@
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-			<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${org.springframework-version}</version>
-		</dependency>
-		<!-- 스프링 시큐리티 추가 -->		
+		<!-- 스프링시큐리티 확장모듈추가(아래) -->
 		<dependency>
 		 <groupId>org.springframework.security</groupId>
 		 <artifactId>spring-security-core</artifactId>
@@ -168,9 +169,14 @@
 		 <artifactId>spring-security-taglibs</artifactId>
 		 <version>${spring.security.version}</version>
 		</dependency>
-				
+		<!-- 파일업로드 라이브러리 -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3.3</version>
+		</dependency>
+		   
 	</dependencies>
-	
     <build>
         <plugins>
             <plugin>

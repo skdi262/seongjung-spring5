@@ -1,4 +1,5 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -22,7 +23,7 @@
 <link rel="stylesheet" href="/resources/home/css/pc.css">
 <script src="/resources/home/js/main.js"></script>
 <!-- 메인슬라이드 코어 임포트 -->
-<script src="/resources/home/js/slideMain.js"></script>
+<script src="/resources/home/js/slidemain.js"></script>
 <style>
 /* 테블릿용 메인페이지 스타일 지정(아래) 801px~무한대까지 재정의 */
 @media all and (min-width:801px) {
@@ -94,7 +95,7 @@ $(document).ready(function() {
 					<!-- 로그인 후 보이는 메뉴(아래) -->
 					<li><a href="#">OOO님 환영합니다.</a></li>
 					<li><a href="mypage.html">마이페이지</a></li>
-					<li><a href="../admin">AdminLTE</a></li>
+					<li><a href="/admin">AdminLTE</a></li>
 				</ul>	
 				<nav>
 				<ul class="gnb clear">
@@ -175,19 +176,19 @@ $(document).ready(function() {
 			<div class="about_box">
 				<ul class="place_list box_inner clear">
 					<li><a href="#" onclick="$('.popup_base').css('height',$(document).height());$('.contact_pop').show();">
-							<img class="img_topplace" src="/resources/home/img/no_image.jpg" alt="OOOO OOOOO" style="opacity:0.7;"/>
+							<img class="img_topplace" src="/resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;"/>
 							<h3>OOOO OOOOO</h3>
 							<p class="txt">OOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOO!</p>
 							<span class="view">VIEW</span></a>
 					</li>
 					<li><a href="#" onclick="$('.popup_base').css('height',$(document).height());$('.space_pop').show();">
-							<img class="img_topplace" src="/resources/home/img/no_image.jpg" alt="OOOO OOOOO" style="opacity:0.7;"/>
+							<img class="img_topplace" src="/resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;"/>
 							<h3>OOOO OOOOO</h3>
 							<p class="txt">OOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOO.</p>
 							<span class="view">VIEW</span></a>
 					</li>
 					<li><a href="#" onclick="$('.popup_base').css('height',$(document).height());$('.program_pop').show();">
-							<img class="img_topplace" src="/resources/home/img/no_image.jpg" alt="OOOO OOOOO" style="opacity:0.7;"/>
+							<img class="img_topplace" src="/resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;"/>
 							<h3>OOOO OOOOO</h3>
 							<p class="txt">OOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOO</p>
 							<span class="view">VIEW</span></a>
@@ -219,7 +220,7 @@ $(document).ready(function() {
 		</div>
 		<!-- //카카오톡상담및최근공지사항영역 -->
 	</div>
-	<!-- //메이콘텐츠영역 -->
+	<!-- //메인콘텐츠영역 -->
 	
 	<!-- 푸터메뉴및사업자정보영역 -->
 	<footer>

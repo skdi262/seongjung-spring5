@@ -44,18 +44,20 @@ public class MemberDAOImpl implements IF_MemberDAO{
 
 	@Override
 	public void deleteMember(String user_id) throws Exception {
-		// sqlSession 스프링빈의 메서드를 이용해 매퍼쿼리를 실행
+		// sqlSession스프링빈의 메서드를 이용해서 매퍼 쿼리를 실행(아래)
 		sqlSession.delete("memberMapper.deleteMember", user_id);
 	}
 
 	@Override
 	public MemberVO readMember(String user_id) throws Exception {
-		// 데이터베이스 마이바티스 쿼리를 실행 
+		// 데이터베이스 마이바티스 쿼리를 호출(실행)
 		return sqlSession.selectOne("memberMapper.readMember", user_id);
 	}
+
 	@Override
 	public void updateMember(MemberVO memberOne) throws Exception {
 		// DB 마이바티스 쿼리 호출(아래)
 		sqlSession.update("memberMapper.updateMember", memberOne);
-		}
+	}
+
 }
