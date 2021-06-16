@@ -404,7 +404,7 @@ footer {
 	width: 50px;
 	height: 74px;
 	text-indent: -9999px;/* 들여쓰기, 글자를 숨기기: 웹접근성(시각장애인용구현) */
-	background: url(/home/img/ico_blog_r.png) no-repeat;
+	background: url(../img/ico_blog_r.png);
 	overflow: hidden;
 }
 .snslink li + li a {/* 인접(형제)연산자+ == sibling(시블링) */
