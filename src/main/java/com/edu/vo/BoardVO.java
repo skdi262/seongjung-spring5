@@ -19,7 +19,25 @@ public class BoardVO {
 	private Date reg_date;
 	private Date update_date;
 	private String board_type;
+	//게시물 등록시 하나지만 첨부파일은 여러개일 수 있음. 그래서 배열형으로 만듬 
+	//그래서 DB에는 없는 가상 멤버변수(필드)를 2개 만듭니다.
 	//Get,Set 생성
+	private String[] save_file_names; //null 가능!
+	private String[] real_file_names; //null 가능!
+	
+	
+	public String[] getSave_file_names() {
+		return save_file_names;
+	}
+	public void setSave_file_names(String[] save_file_names) {
+		this.save_file_names = save_file_names;
+	}
+	public String[] getReal_file_names() {
+		return real_file_names;
+	}
+	public void setReal_file_names(String[] real_file_names) {
+		this.real_file_names = real_file_names;
+	}
 	@Override
 	public String toString() {
 		return "BoardVO [bno=" + bno + ", title=" + title + ", content=" + content + ", writer=" + writer

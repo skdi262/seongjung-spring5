@@ -15,7 +15,7 @@ import com.edu.vo.BoardTypeVO;
  *
  */
 @Repository
-public class BoardTypeDAOimpl implements IF_BoardTypeDAO{
+public class BoardTypeDAOImpl implements IF_BoardTypeDAO{
 	//sqlSession템플릿 의존성 주입
 	@Inject //자바8부터 신규로나온 애노테이션
 	private SqlSession sqlSession;
