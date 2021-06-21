@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.edu.dao.IF_BoardDAO;
 import com.edu.vo.AttachVO;
@@ -33,7 +34,7 @@ public class BoardServiceImpl implements IF_BoardService {
 		//페이징 처리시 PageVO 의 TotalCount 변수에 사용된 값을 리턴값으로 호출 
 		return boardDAO.countBoard(pageVO);
 	}
-
+	@Transactional
 	@Override
 	public void deleteBoard(int bno) throws Exception {
 		//게시물 삭제할 때 , 여기서는 총 3개의 메서드(댓글,첨부파일 삭제이후 게시물삭제)가 필요함.
@@ -44,6 +45,7 @@ public class BoardServiceImpl implements IF_BoardService {
 		//댓글삭제는 나중에...
 		boardDAO.deleteBoard(bno);
 	}
+	@Transactional
 	@Override
 	public void updateBoard(BoardVO boardVO) throws Exception {
 		// 첨부파일 처리 + 게시물 업데이트, 2개의 메서드 실행
@@ -66,7 +68,7 @@ public class BoardServiceImpl implements IF_BoardService {
 			index=index+1;
 		}
 	}
-
+	@Transactional 
 	@Override
 	public BoardVO readBoard(int bno) throws Exception {
 		// 게시물 상세보기시 2개이상 메서드를 가져오려면 트랜잭션이 필요함
@@ -74,7 +76,8 @@ public class BoardServiceImpl implements IF_BoardService {
 		boardDAO.updateViewCount(bno);
 		return boardVO;
 	}
-
+	
+	@Transactional
 	@SuppressWarnings("null")
 	@Override
 	public void insertBoard(BoardVO boardVO) throws Exception {
