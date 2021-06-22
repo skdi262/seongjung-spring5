@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<%@ include file="../include/header.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
+<%@ include file="../include/header.jsp" %>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -16,7 +15,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">${boardVO.board_type} 게시물 관리</li>
+              <li class="breadcrumb-item active">${boardVO.board_type} 게시물관리</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -35,7 +34,7 @@
           <!-- /.card-header -->
           <!-- form start -->
           <!-- 첨부파일을 전송할때 enctype=필수 없으면, 첨부파일이 전송X -->
-          <form name="form_view" action="/admin/board/board_update" enctype="multipart/form-data">
+          <form name="form_view" method="post" action="/admin/board/board_update_form" enctype="multipart/form-data">
             <div class="card-body">
               <div class="form-group">
                 <label for="exampleInputEmail1">제목</label>
@@ -60,39 +59,56 @@
               <div class="form-group">
                 <label for="exampleInputPassword1">작성일</label>
                 <br>
-                <fmt:formatDate pattern="yyyy-MM-dd hh:MM:ss" value="${boardVO.reg_date}"/>
+                <fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${boardVO.reg_date}"/> 
               </div>
               <div class="form-group">
-                <label for="exampleInputFile">첨부 파일</label>
+                <label for="exampleInputFile">첨부파일</label>
                 <c:forEach begin="0" end="1" var="idx">
-                <c:if test="${boardVO.save_file_names[idx] == null}">
-                <div class="input-group">
-                  <div class="custom-file">
-                  <!-- 첨부파일을 url로 직접접근하지 못 하기 때문에  다운로드 전용 메서드를 만듬-->
-                  <a href="/download?save_file_name=${boardVO.save_file_names[idx]}&real_file_name=${boardVO.real_file_names[idx]}">
-                    ${boardVO.real_file_names[idx]}
-                    </a>
-                    <!-- jstl에서 변수 사용하기 fn:split('데이터', '분할기준값') 목적: 파일명을 .으로 구분해서 확장자를 구하고, 이미지 미리보기를 할 건지 말건지 결정해야하기 때문에.
-                    String[] fileNamesArray = String.split('변수값','분할기준값') 
-                    -->
-<c:set var="fileNameArray" value="${fn:split(boardVO.svae_file_names[idx],'.')}" />
-<c:set var="extName" value="${fileNameArray[fn:length(fileName)-1]}"/>
-                  </div>
-                </div>                
-                </c:if>
-                </c:forEach>
-                
+	                <c:if test="${boardVO.save_file_names[idx] != null}">
+	                <div class="input-group">
+	                  <div class="custom-file">
+	                  	<!-- 첨부파일을 URL로 직접접근하지 못하기 때문에 컨트롤러로만 접근이 가능(다운로드전용 메서드생성) -->
+	                    <a href="/download?save_file_name=${boardVO.save_file_names[idx]}&real_file_name=${boardVO.real_file_names[idx]}">
+	                    ${boardVO.real_file_names[idx]}
+	                    </a>
+	                    <!-- jstl에서 변수사용하기 fn.split('데이터','분할기준값') 목적: 확장자를 이용해서 이미지 미리보기를 할 건지 결정 img태그사용
+	                    	String[] fileNameArray = String.split('변수값','분할기준값');
+	                    -->
+	                    <c:set var="fileNameArray" value="${fn:split(boardVO.save_file_names[idx],'.')}" />
+	                    <!-- 그림판.얼굴.코.JPG = 3개배열, 그림판.jpg = 2개배열 -->
+	                    <c:set var="extName" value="${fileNameArray[fn:length(fileNameArray)-1]}" />
+	                    <!-- 그림판.얼굴.jpg 파일을 위 변수로 처리시 extName = fineNameArray[2] = jpg -->
+	                    <!-- 자바언어로는 switch ~ case문 ~ default -->
+	                    <!-- containsIgnoreCase('찾을값의문장','비교기준값') -->
+	                    <c:choose>
+	                    	<c:when test="${fn:containsIgnoreCase(checkImgArray,extName)}">
+	                    		<img src="/image_preview?save_file_name=${boardVO.save_file_names[idx]}" style="width:100%;">
+	                    	</c:when>
+	                    	<c:otherwise>
+	                    		<!-- 아무의미 없이 개발연습용으로  -->
+	                    		<c:out value="${checkImgArray}" /> 이미지가 아님.
+	                    	</c:otherwise>
+	                    </c:choose>
+	                  </div>
+	                </div>
+	                </c:if>
+                </c:forEach>                
               </div>
             </div>
             <!-- /.card-body -->
 
             <div class="card-footer text-right">
               <button type="submit" class="btn btn-primary">수정</button>
-              <button type="button" class="btn btn-danger">삭제</button>
-              <a href="board_list.html" class="btn btn-default">목록</a>
+              <button type="button" class="btn btn-danger" id="btn_delete">삭제</button>
+              <button type="button" class="btn btn-default" id="btn_list">목록</button>
             </div>
+            <input name="page" value="${pageVO.page}" type="hidden">
+            <input name="search_type" value="${pageVO.search_type}" type="hidden">
+            <input name="search_keyword" value="${pageVO.search_keyword}" type="hidden">
+            <input name="bno" value="${boardVO.bno}" type="hidden">
           </form>
         </div>
+        
         <!-- 댓글 입력폼 -->
         <div class="col-md-12">
           <div class="card-default">
@@ -109,7 +125,7 @@
                 <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                 <div class="form-group">
                   <label for="replyer">작성자</label>
-                  <input type="text" class="form-control" id="writer" placeholder="작성자를 입력하세요">
+                  <input type="text" class="form-control" id="replyer" placeholder="작성자를 입력하세요">
                 </div>
                 <div class="form-group">
                   <label for="reply_text">댓글내용</label>
@@ -208,4 +224,20 @@
   </div>
   <!-- /.content-wrapper -->
 
-<%@ include file="../include/footer.jsp"%>
+<%@ include file="../include/footer.jsp" %>
+<script>
+$(document).ready(function(){
+	var form_view = $("form[name='form_view']");
+	$("#btn_list").click(function(){		
+		form_view.attr("action","/admin/board/board_list");
+		form_view.attr("method","get"); //폼의 설정된 메서드 post에서 get으로 변경
+		form_view.submit();
+	});
+	$("#btn_delete").click(function(){
+		if(confirm('정말로 삭제하시겠습니까 ?')) {
+			form_view.attr("action","/admin/board/board_delete");
+			form_view.submit();
+		}
+	});
+});
+</script>

@@ -59,7 +59,7 @@
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 	<!-- 파일업로드 설정 업로드 폴더위치 전역변수로 생성 빈을 실행 시 초기값을 지정할때 constructor 사용-->
-	<bean id="uploadPate" class="java.lang.String">
+	<bean id="uploadPath" class="java.lang.String">
 	<constructor-arg value="c:\\upload" />
 	</bean>
 	

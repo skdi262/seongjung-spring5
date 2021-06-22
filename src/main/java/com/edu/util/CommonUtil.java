@@ -2,6 +2,7 @@ package com.edu.util;
 
 import java.util.ArrayList;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.slf4j.Logger;
@@ -28,6 +29,13 @@ public class CommonUtil {
 	@Inject
 	private IF_MemberService memberService;//스프링빈을 주입받아서(DI) 객체준비
 	
+	//첨부파일 업로드/다운로드/삭제/업데이트/인서트에 모두 사용될 파일저장경로를 지정해 전역으로 사용
+	//root-context에 있는 uploadPath에서 resource로 가져와서 private 변수 지정
+	@Resource(name="uploadPath")
+	private String uploadPath;
+	public String getUploadPath() {
+		return uploadPath;
+	}
 	//첨부파일이 이미지인지 아닌지 체크하는 데이터 생성
 	private ArrayList<String> checkImgArray = new ArrayList<String> () {
 		{
