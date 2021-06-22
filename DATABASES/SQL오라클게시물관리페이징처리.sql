@@ -8,8 +8,8 @@ where board_type = 'notice' --게시물 관리때문에 추가한 코드
 and (title like '%%'
 or content like '%%')
 order by reg_date DESC
-) TableA WHERE ROWNUM <= (2*5) + 5 -- 0부터 선택한 페이지 
-) TableB WHERE TableB.RNUM > 2*5 -- 현재페이지당 보여줄 개수
+) TableA WHERE ROWNUM <= (0*5) + 5 -- 0부터 선택한 페이지 
+) TableB WHERE TableB.RNUM > 0*5 -- 현재페이지당 보여줄 개수
 -- 페이징 쿼리에서 필요한 변수는 2개 
 -- 현재페이지변수 : page*queryPerPageNum == queryStartNo
 -- 1페이지당 보여줄 개수의 변수 : b = 10 : queryPerPageNum

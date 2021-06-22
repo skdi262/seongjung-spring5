@@ -49,12 +49,12 @@ public class BoardDAOImpl implements IF_BoardDAO{
 
 	@Override
 	public List<AttachVO> readAttach(Integer bno) throws Exception {
-		return sqlSession.selectOne("boardMapper.readAttach", bno);
+		return sqlSession.selectList("boardMapper.readAttach", bno);
 	}
 
 	@Override
 	public void updateViewCount(Integer bno) throws Exception {
-		sqlSession.update("boardMapper.updateBoard", bno);
+		sqlSession.update("boardMapper.updateViewCount", bno);
 	}
 
 	@Override

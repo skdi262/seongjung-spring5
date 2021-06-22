@@ -24,7 +24,7 @@ import com.edu.vo.PageVO;
 
 /**
  * 이 클래스는 AOP기능 중 @Aspect 과 @ControllerAdvice 로 구현됩니다.
- * @author 김일국
+ * @author 김성중
  *
  */
 @Component
@@ -65,7 +65,9 @@ public class AspectAdvice {
 			}
 			if(session.getAttribute("session_board_type") != null) {
 				board_type = (String) session.getAttribute("session_board_type");
+				if(pageVO != null) {//pageVO를 null로 성정해놔서 이번 if문 넣어줌.
 				pageVO.setBoard_type(board_type);//검색목표달성:여기서 항상 값을 가져가도록 구현됩니다.
+				}
 			}
 			logger.info("디버그19: "+(String) session.getAttribute("session_board_type"));
 		}
