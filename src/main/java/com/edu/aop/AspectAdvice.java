@@ -50,16 +50,30 @@ public class AspectAdvice {
 		//컨트롤러 클래스에서 매개변수로 받을값(board_type) < pageVO
 		PageVO pageVO = null;
 		String board_type = null;//jsp에서 전송되는 값을 임시로 저장,목적은 세션변수 발생조건으로사용
+		String search_keyword = null; // 한글 검색 시 에러 발생
 		//조인포인트리스트의 객체의 메서드의 Arguments(매개변수)를 뽑아냄 
 		for(Object object:pjp.getArgs()) {
-			if(object instanceof PageVO) {
+			if(object instanceof PageVO) { //AOP 실행 메서드 중 매개변수 PageVO pageVO 객체 판단
+				//게시판 , 멤버서비스에 PageVO사용하는 서비스에만 적용, 게시판 생성관리에는 적용 안됨
 				pageVO = (PageVO) object;
 				board_type = pageVO.getBoard_type();
+				search_keyword = pageVO.getSearch_keyword();
 			}
 		}
 		if(request != null) {//jsp에서 Get,Post 있을때,
 			//세션값을 pageVO.board_type 값으로 저장 로직(아래)
 			HttpSession session = request.getSession();//PC가 스프링프로젝트 접근시 세션객체
+			//검색 폼이 있는 jsp에서 발생
+			if(search_keyword != null) {//검색어가 발생하면 최초로 세션 변수를 만듬
+				session.setAttribute("session_search_keyword", search_keyword);
+			}
+			if(session.getAttribute("session_search_keyword") != null) {
+				//세션값이 있다면
+				search_keyword = (String) session.getAttribute("session_search_keyword");
+				if(pageVO !=null) {
+					pageVO.setSearch_keyword(search_keyword);
+				}
+			}
 			if(board_type != null) {//최초로 세션변수가 발생
 				session.setAttribute("session_board_type", board_type);
 			}

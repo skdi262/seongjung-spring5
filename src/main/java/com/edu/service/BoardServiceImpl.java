@@ -72,8 +72,8 @@ public class BoardServiceImpl implements IF_BoardService {
 	@Override
 	public BoardVO readBoard(int bno) throws Exception {
 		// 게시물 상세보기시 2개이상 메서드를 가져오려면 트랜잭션이 필요함
-		BoardVO boardVO = boardDAO.readBoard(bno);
 		boardDAO.updateViewCount(bno);
+		BoardVO boardVO = boardDAO.readBoard(bno);		
 		return boardVO;
 	}
 	
