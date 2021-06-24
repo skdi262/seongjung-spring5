@@ -50,7 +50,7 @@
               </div>
               <div class="form-group">
                 <label for="content">글내용</label>
-                <textarea name="content" id="content" class="form-control" placeholder="내용을 입력해주세요." required>${boardVO.content}</textarea>
+                <textarea name="content" id="content" class="form-control" placeholder="내용을 입력해주세요." >${boardVO.content}</textarea>
               </div>
               <div class="form-group">
                 <label for="writer">작성자</label>
@@ -134,5 +134,12 @@
 			fontSizes: ['8','10','12','14','16','18','20','22','24','26','28','30'],
 			fontNamesIgnoreCheck: ['Nanum Gothic']
 		});
+		//서버노트에서 html5 required 속성이 작동이 안 되기 대문에 아래코드 추가
+		$("form[name='form_write']").on('submit',function(e){
+			if($('#content').summernote('isEmpty')){
+				alert('내용은 반드시 입력해주세요.');
+				e.preventDefault();//submit 전송 기능을 사용금지
+			}
+		})
 	});
 </script>

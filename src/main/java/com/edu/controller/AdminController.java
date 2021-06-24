@@ -56,13 +56,13 @@ public class AdminController {
 		List<AttachVO> delFiles = boardService.readAttach(boardVO.getBno());
 		String[] save_file_names = new String[files.length];
 		String[] real_file_names = new String[files.length];
-		int idx = 0;
+		int index = 0; // jsp폼에서 보내온 파일의 인덱스
 		for(MultipartFile file:files) {
 			if(file.getOriginalFilename()!="") {//전송된 첨부파일이 있으면 실행
-				int sun=0; //DB테이블에 저장된 순서
+				int sun=0; //DB테이블에 저장된 순서에 대한 인덱스 초기값 변수
 				//아래 for의 목적 : jsp폼에서 기존에 첫번째 위치의 
 				for(AttachVO file_name:delFiles) {//기존 파일을 가져와서 반복
-					if(idx==sun) {
+					if(index==sun) {//jsp폼의 파일의 순서와 DB에 저장된 파일의 순서가 일치할 때 실행
 						File target  = new File(commonUtil.getUploadPath() ,file_name.getSave_file_name());
 						if(target.exists()){
 						target.delete();//물리적인 파일 지우는 명령
@@ -70,17 +70,23 @@ public class AdminController {
 					}
 					sun= sun +1;
 				}
-				save_file_names[idx] = commonUtil.fileupload(file);
-				real_file_names[idx] = file.getOriginalFilename();//UI용 임시저장
+				save_file_names[index] = commonUtil.fileupload(file);
+				real_file_names[index] = file.getOriginalFilename();//UI용 임시저장
+			}else {
+				save_file_names[index] = null;
+				real_file_names[index] = null;
 			}
-			
-		}
+			index = index+1;
+		}//for(MultipartFile file:files)
+		boardVO.setSave_file_names(save_file_names);
+		boardVO.setReal_file_names(real_file_names);
 		String rawContent = boardVO.getContent();		
 		String secContent = commonUtil.unScript(rawContent);
 		boardVO.setContent(secContent);
-		String rawTitle = boardVO.getContent();		
+		String rawTitle = boardVO.getTitle();
 		String secTitle = commonUtil.unScript(rawTitle);
 		boardVO.setTitle(secTitle);
+		//시큐어 코딩 끝
 		boardService.updateBoard(boardVO);//게시물수정
 		//첨부파일 작업 전, 시큐어코딩 : 입력/수정시 시큐어 코딩 적용, 뷰화면만 시큐어
 		

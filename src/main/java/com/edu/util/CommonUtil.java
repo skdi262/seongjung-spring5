@@ -1,15 +1,22 @@
 package com.edu.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
@@ -34,6 +41,57 @@ public class CommonUtil {
 	private Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 	@Inject
 	private IF_MemberService memberService;//스프링빈을 주입받아서(DI) 객체준비
+	//첨부파일 업로드/다운로드/삭제/업데이트/인서트에 모두 사용될 파일저장경로를 지정해 전역으로 사용
+		//root-context에 있는 uploadPath에서 resource로 가져와서 private 변수 지정
+		@Resource(name="uploadPath")
+		private String uploadPath;
+		public String getUploadPath() {
+			return uploadPath;
+		}
+	//같은 페이지에 페이지 이동이 아닌 결과값만 반환 @ResponseBody 
+	@RequestMapping(value="/img_preview", method=RequestMethod.GET)
+	@ResponseBody  
+	public ResponseEntity <byte[]> imagePreview(@RequestParam("save_file_name") String save_file_name, HttpServletResponse reponse ) throws Exception{
+		//파일을 입출력할 때는 파일을 byte 형식으로 입출력할 때 발생되는 통로 : 스트링
+		FileInputStream fis = null;//입력통로
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();//출력통로
+		fis = new FileInputStream(uploadPath + "/" + save_file_name);
+		int readCount = 0;
+		byte[] buffer = new byte[1024];//임시 저장소
+		byte[] fileArray = null; // 추력 스트링 결과를 저장하는 공간
+		//반복문 - fis 로 입력받는 save_file_name을 byte값(배열)이 -1일 때 까지 반복
+		while((readCount = fis.read(buffer)) != -1) {
+			//입력통로 fis에서 출력통로로 보냄 (baos) 파일입출력은 바이트단위로만 가능
+			baos.write(buffer, 0, readCount);//rawData, 종료조건, 길이
+			//결과는 baos에 누적이 됨 - jsp로 보내주면 됨
+		}
+		fileArray = baos.toByteArray();//baos 객체를  byte 배열로 파싱
+		fis.close();//메모리 초기화
+		baos.close();//메모리 초기화
+		//fileArray 값을 jsp로 보내주는 준비작업, final 이 메서드에서만 사용하겠다고 명시
+		final HttpHeaders headers= new HttpHeaders();
+		String ext = FilenameUtils.getExtension(save_file_name);
+		//이미지 확장자에 따라서 매칭되는 헤더값이 변해야만 이미지 미리보기가 정상으로 보임.
+		switch(ext.toLowerCase()) {//확장자가 뭐든 일단 소문자로 바꿔서 비교
+		case "png":
+			headers.setContentType(MediaType.IMAGE_PNG);
+			break;
+		case "jpg" :
+			headers.setContentType(MediaType.IMAGE_JPEG);
+			break;
+		case "gif" :
+			headers.setContentType(MediaType.IMAGE_GIF);
+			break;
+		case "jpeg":
+			headers.setContentType(MediaType.IMAGE_JPEG);
+			break;
+		case "bmp":
+			headers.setContentType(MediaType.parseMediaType("image/bmp"));
+			break;			
+			default:break;
+		}
+		return new ResponseEntity<byte[]>(fileArray);//객체 생성시 초기값('rawData',header)
+	}
 	
 	//XSS 크로스사이트 스크립트 방지용코드를 파싱하는 메서드 생성
 	public String unScript(String data) {
@@ -54,13 +112,7 @@ public class CommonUtil {
         ret = ret.replaceAll("</(F|f)(O|o)(R|r)(M|m)", "&lt;form");
 		return ret;
 	}
-	//첨부파일 업로드/다운로드/삭제/업데이트/인서트에 모두 사용될 파일저장경로를 지정해 전역으로 사용
-	//root-context에 있는 uploadPath에서 resource로 가져와서 private 변수 지정
-	@Resource(name="uploadPath")
-	private String uploadPath;
-	public String getUploadPath() {
-		return uploadPath;
-	}
+	
 	//첨부파일이 이미지인지 아닌지 체크하는 데이터 생성
 	private ArrayList<String> checkImgArray = new ArrayList<String> () {
 		{
@@ -97,6 +149,9 @@ public class CommonUtil {
 		// 폴더에 저장할 PK 파일명을 생성
 		UUID uid = UUID.randomUUID();//유니크 ID값 생성
 		String saveFileName = uid.toString()+"."+ StringUtils.getFilenameExtension(realFileName);
+		//file의 MultipartFile클래스 객체. 클래스형 자료는 직접 저장할 수 없음
+		//그래서 바이트형으로 변환해서 저장해야함 - > bit형 자료로 파싱
+		// 자바자료형 정수 : byte < short <int <long, 실수형 : float<double
 		byte[] fileData = file.getBytes();
 		File target = new File(uploadPath, saveFileName);
 		FileCopyUtils.copy(fileData, target);//물리적으로 폴더에 저장됨
