@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.edu.dao.IF_BoardDAO;
 import com.edu.service.IF_MemberService;
 import com.edu.vo.MemberVO;
 
@@ -41,6 +45,7 @@ public class CommonUtil {
 	private Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 	@Inject
 	private IF_MemberService memberService;//스프링빈을 주입받아서(DI) 객체준비
+	@Inject IF_BoardDAO boardDAO;
 	//첨부파일 업로드/다운로드/삭제/업데이트/인서트에 모두 사용될 파일저장경로를 지정해 전역으로 사용
 		//root-context에 있는 uploadPath에서 resource로 가져와서 private 변수 지정
 		@Resource(name="uploadPath")
@@ -48,8 +53,40 @@ public class CommonUtil {
 		public String getUploadPath() {
 			return uploadPath;
 		}
+		
+		//첨부파일 개별삭제 Ajax로 받아서 처리,@ResponseBody 사용
+		@RequestMapping(value="/file_delete", method=RequestMethod.POST)
+		@ResponseBody
+		public String file_delete(@RequestParam("save_file_name")String save_file_name) { //Ajax는 예외처리를 스프링에 던지지 않고, try~catch문으로 처리.
+			String result = "";//Ajax로 보내는 값변수
+			try {
+				boardDAO.deleteAttach(save_file_name);
+				File target = new File(uploadPath + "/" + save_file_name);
+				if(target.exists()) {
+					target.delete();
+				}
+				result = "success";
+			} catch (Exception e) {
+				result = "fail: " + e.toString();
+			}
+			return result;//Ajax에서 바로확인 가능
+		}
+		//다운로드 처리 ResponseBody 사용
+	@RequestMapping(value="/download", method=RequestMethod.GET)
+	@ResponseBody
+	public FileSystemResource download(@RequestParam("save_file_name") String save_file_name, @RequestParam("real_file_name") String real_file_name, HttpServletResponse response) throws Exception {
+		//FileSystemResource는 스프링 코어에서 제공하는 파일 다운로드 처리전용 클래스
+		File file = new File(uploadPath + "/" + save_file_name);
+		//아래한글 , ppt 문서에서 한글이 깨지는 것을 방지하는 코드
+		response.setContentType("application/download; utf-8");
+		real_file_name = URLEncoder.encode(real_file_name);//IE에서 한글이 안 꺠지게
+		response.setHeader("Content-Disposition", "attachment;filename=" + 
+				real_file_name);
+		return new FileSystemResource(file);
+	}		
+		
 	//같은 페이지에 페이지 이동이 아닌 결과값만 반환 @ResponseBody 
-	@RequestMapping(value="/img_preview", method=RequestMethod.GET)
+	@RequestMapping(value="/image_preview", method=RequestMethod.GET)
 	@ResponseBody  
 	public ResponseEntity <byte[]> imagePreview(@RequestParam("save_file_name") String save_file_name, HttpServletResponse reponse ) throws Exception{
 		//파일을 입출력할 때는 파일을 byte 형식으로 입출력할 때 발생되는 통로 : 스트링
@@ -90,7 +127,7 @@ public class CommonUtil {
 			break;			
 			default:break;
 		}
-		return new ResponseEntity<byte[]>(fileArray);//객체 생성시 초기값('rawData',header)
+		return new ResponseEntity<byte[]>(fileArray,headers,HttpStatus.CREATED);//객체 생성시 초기값('rawData',header,HTTP상태값)
 	}
 	
 	//XSS 크로스사이트 스크립트 방지용코드를 파싱하는 메서드 생성
@@ -143,7 +180,7 @@ public class CommonUtil {
 		return memberCnt;//0.jsp 이렇게 작동하지 않습니다. 이유는 @ResponseBody때문이고, RestAPI는 값만 반환
 	}
 	//파일 업로드 공통 (Admin컨트롤러 + Home 컨트롤러에서 사용)메서드
-	public String fileupload(MultipartFile file) throws IOException {
+	public String fileUpload(MultipartFile file) throws IOException {
 		// TODO UUID클래스로 저장될 고유식별 파일명을 생성 후 물리적으로 저장
 		String realFileName= file.getOriginalFilename();
 		// 폴더에 저장할 PK 파일명을 생성
