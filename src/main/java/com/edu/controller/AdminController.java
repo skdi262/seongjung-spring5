@@ -52,16 +52,36 @@ public class AdminController {
 	@Inject
 	private IF_BoardDAO boardDAO;
 	
-	//게시물 등록 폼을 Get으로 호출
+	//게시물 등록을 POST로 처리 합니다.
+	@RequestMapping(value="/admin/board/board_insert", method=RequestMethod.POST)
+	public String board_insert(@RequestParam("file")MultipartFile[] files,BoardVO boardVO) throws Exception {
+		//신규 등록이라서 기존 첨부파일 불러오는 로직은 필요없음.
+		String[] save_file_names = new String[files.length];
+		String[] real_file_names = new String[files.length];
+		int index = 0;//첨부파일이 1개이상일때 반복변수로 사용
+		for(MultipartFile file:files) {
+			if(file.getOriginalFilename() != "") {//첨부파일이 있으면 실행
+				save_file_names[index] = commonUtil.fileUpload(file);//물리적인파일저장
+				real_file_names[index] = file.getOriginalFilename();//UI용 파일이름
+			}
+			index = index + 1;//index++
+		}
+		//신규등록 jsp폼에서 보낸 boardVO값에 아래 file에 대한 임시 변수값을 저장하는 로직
+		boardVO.setSave_file_names(save_file_names);
+		boardVO.setReal_file_names(real_file_names);
+		boardService.insertBoard(boardVO);//DB에 저장하는 서비스 호출(실행)
+		return "redirect:/admin/board/board_list";//게시판 테러방지용 redirect사용(새로고침시 무한등록을 방지)
+		//게시판 신규등록시 자동으로 page가 1로 이동됩니다. 
+	}
+	//게시물 등록 폼을 Get으로 호출합니다.
 	@RequestMapping(value="/admin/board/board_insert_form", method=RequestMethod.GET)
-	public String board_insert_form(@ModelAttribute("pageVO") PageVO pageVO) throws Exception{
-		if(pageVO.getPage()==null) {
+	public String board_insert_form(@ModelAttribute("pageVO")PageVO pageVO) throws Exception {
+		if(pageVO.getPage() == null) {
 			pageVO.setPage(1);
 		}
-		return "/admin/board/board_insert";//.jsp 생략
+		return "admin/board/board_insert";//.jsp생략
 	}
-	
-	//게시물 수정 처리는 POST로만 접근 가능
+	//게시물 수정처리는 POST로만 접근가능
 	@RequestMapping(value="/admin/board/board_update", method=RequestMethod.POST)
 	public String board_update(@RequestParam("file")MultipartFile[] files,BoardVO boardVO, PageVO pageVO) throws Exception {
 		//기존 등록된 첨부파일 목록 구하기 List(2차원배열)객체의 크기는 .size() 구함. 기존파일이 있을때사용
@@ -130,33 +150,31 @@ public class AdminController {
 		}
 		boardVO.setSave_file_names(save_file_names);
 		boardVO.setReal_file_names(real_file_names);
-		model.addAttribute("boardVO",boardVO);//1개 코드 저장
-		return "admin/board/board_update";
+		model.addAttribute("boardVO", boardVO);//1개코드 저장
+		
+		return "admin/board/board_update";//.jsp생략
 	}
-	
-	//게시물 삭제는 POST 방식으로 처리
+	//게시물 삭제는 URL쿼리스트링으로 접근하지 않고, post방식으로 처리.
 	@RequestMapping(value="/admin/board/board_delete", method=RequestMethod.POST)
-	public String board_delete(@RequestParam("bno")Integer bno, PageVO pageVO) throws Exception {	
-		logger.info("디버그 전역업로드 경로 : " + commonUtil.getUploadPath());
-		//디버그 삭제할 전역변수 경로확인
-		//DB테이블 삭제한 이후 첨부파일 삭제, 자바에서 파일 핸들링 처리
-		//기존 등록된 첨부파일 폴더에서 삭제할 UUID(고유한 식별자를 만드는 클래스)이름을 추출
-		List<AttachVO> delFiles = boardService.readAttach(bno);//해당게시물의 모든 첨부파일이 추출 후 임시로 저장(삭제할려고)
-		boardService.deleteBoard(bno);//첨부파일 테이블 삭제 후 게시물 테이블 삭제
-		// 물리적으로 파일 삭제처리 시작
+	public String board_delete(@RequestParam("bno")Integer bno,PageVO pageVO) throws Exception {
+		//디버그 삭제할 전역변수 경로 확인
+		logger.info("디버그 전역업로드경로: " + commonUtil.getUploadPath());
+		//DB테이블삭제한 이후, 첨부파일부터 있으면 삭제처리. 자바에서 파일핸들링처리
+		//기존 등록된 첨부파일 폴더에서 삭제할 UUID(고유한식별값생성클래스)이름을 추출합니다.(아래)
+		List<AttachVO> delFiles = boardService.readAttach(bno);//해당게시물의 모든 첨부파일 delFiles 에 임시로 담아 놓습니다.
+		boardService.deleteBoard(bno);//첨부파일테이블삭제 후 게시물 테이블 삭제
+		//물리적으로 파일삭제 처리 시작, 향상된 for문사용
 		for(AttachVO file_name:delFiles) {
-			//File 클래스는 ("파일의 업로드된 위치","삭제할 파일명")
-			File target  = new File(commonUtil.getUploadPath() ,file_name.getSave_file_name());
-			if(target.exists()){
-			target.delete();//물리적인 파일 지우는 명령
+			//File클래스는 ("파일의 업로드된 위치","삭제할 파일명");
+			File target = new File(commonUtil.getUploadPath(),file_name.getSave_file_name());
+			if(target.exists()) {
+				target.delete();//물리적인 파일 지우는 명령
 			}
 		}
-		
 		
 		String queryString = "page="+pageVO.getPage()+"&search_type="+pageVO.getSearch_type();
 		return "redirect:/admin/board/board_list?"+queryString;
 	}
-	
 	//게시물 상세보기 폼으로 접근하지 않고 URL쿼리 스트링으로 접근(GET)
 	@RequestMapping(value="/admin/board/board_view", method=RequestMethod.GET)
 	public String board_view(@RequestParam("bno")Integer bno,@ModelAttribute("pageVO")PageVO pageVO, Model model) throws Exception {
