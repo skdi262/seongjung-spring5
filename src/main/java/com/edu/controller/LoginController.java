@@ -45,7 +45,6 @@ public class LoginController {
 			Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 			//authorities에는 초기값으로 존재 {"ROLE_ANONYMOUS","ROLE_USER","ROLE_ADMIN",..}
 		}
-		if()
 		return "";
 	}
 }
