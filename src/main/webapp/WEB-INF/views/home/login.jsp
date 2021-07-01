@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="./include/header.jsp"%>
+<script>
+if("${param.msg}"=="fail"){
+	alert("로그인에 실패했습니다. ID 혹은 암호를 확인해주세요.")
+}
+</script>
+
 <link rel="stylesheet" href="/resources/home/css/board.css">
 <!-- 메인 컨텐츠 시작, 메인 컨텐츠 영역만 변경됨  -->
 <div id="container">
@@ -26,7 +32,7 @@
             <ul class="app_list">
                 <li class="clear">
                     <label for="id_lbl" class="tit_lbl pilsoo_item">아이디</label>
-                    <div class="app_content"><input type="text" name="user_id" class="w100p" id="id_lbl" placeholder="아이디를 입력해주세요" required/></div>
+                    <div class="app_content"><input autofocus type="text" name="user_id" class="w100p" id="id_lbl" placeholder="아이디를 입력해주세요" required/></div>
                 </li>
                 <li class="clear">
                     <label for="password_lbl" class="tit_lbl pilsoo_item">암호</label>

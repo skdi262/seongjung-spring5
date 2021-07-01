@@ -20,6 +20,8 @@
 
 #### 20210701(목)
 - security context 데이터를 변수값 이동기준.
+- 람다식 사용 예 ) https://github.com/miniplugin/SQLite-kimilguk/blob/master/app/src/main/java/com/human/sqlite_kimilguk/MainActivity.java
+
 
 #### 20210629(화)
 - 댓글삭제처리.
