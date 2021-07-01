@@ -6,7 +6,10 @@
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+		<param-value>
+			/WEB-INF/spring/root-context.xml
+			/WEB-INF/spring/security-context.xml
+		</param-value>
 	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
@@ -45,7 +48,7 @@
 	  <filter-name>encoding</filter-name>
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- URL요청 Endpoint에서 PATCH,Delete,PUT  -->
+	<!-- URL요청Endpoint에서 PATCH,DELETE,PUT 10년전에는 아예없어서 구버전 호환성추가 -->
 	<filter>
 	    <filter-name>hiddenHttpMethodFilter</filter-name>
 	    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
@@ -54,5 +57,4 @@
 	    <filter-name>hiddenHttpMethodFilter</filter-name>
 	    <url-pattern>/</url-pattern>
 	</filter-mapping>
-	
 </web-app>
