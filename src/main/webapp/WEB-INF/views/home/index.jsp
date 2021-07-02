@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="./include/header.jsp" %>
 <script>
-// 메인페이지 전용 슬라이드 호출 부분
+// 메인페이지 전용 슬라이드 호출 부분: index에서만 필요한 코드이기 때문에
 $(document).ready(function() {
 	// 위에서 선언한 함수|변수 사용(아래)
 	//여기서 함수호출(실행)
@@ -89,19 +89,19 @@ $(document).ready(function() {
 			<div class="about_box">
 				<ul class="place_list box_inner clear">
 					<li><a href="#" onclick="$('.popup_base').css('height',$(document).height());$('.contact_pop').show();">
-							<img class="img_topplace" src="/resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;"/>
+							<img class="img_topplace" src="/resources/home/img/no_image.jpg" alt="OOOO OOOOO" style="opacity:0.7;"/>
 							<h3>OOOO OOOOO</h3>
 							<p class="txt">OOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOO!</p>
 							<span class="view">VIEW</span></a>
 					</li>
 					<li><a href="#" onclick="$('.popup_base').css('height',$(document).height());$('.space_pop').show();">
-							<img class="img_topplace" src="/resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;"/>
+							<img class="img_topplace" src="/resources/home/img/no_image.jpg" alt="OOOO OOOOO" style="opacity:0.7;"/>
 							<h3>OOOO OOOOO</h3>
 							<p class="txt">OOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOO.</p>
 							<span class="view">VIEW</span></a>
 					</li>
 					<li><a href="#" onclick="$('.popup_base').css('height',$(document).height());$('.program_pop').show();">
-							<img class="img_topplace" src="/resources/home/img/no_image.png" alt="OOOO OOOOO" style="opacity:0.7;"/>
+							<img class="img_topplace" src="/resources/home/img/no_image.jpg" alt="OOOO OOOOO" style="opacity:0.7;"/>
 							<h3>OOOO OOOOO</h3>
 							<p class="txt">OOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOOOOOO OOOOO</p>
 							<span class="view">VIEW</span></a>
@@ -134,4 +134,5 @@ $(document).ready(function() {
 		<!-- //카카오톡상담및최근공지사항영역 -->
 	</div>
 	<!-- //메인콘텐츠영역 -->
+	
 <%@ include file="./include/footer.jsp" %>

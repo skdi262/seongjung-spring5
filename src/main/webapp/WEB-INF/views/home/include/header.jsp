@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="/resources/home/css/pc.css">
 <script src="/resources/home/js/main.js"></script>
 <!-- 메인슬라이드 코어 임포트 -->
-<script src="/resources/home/js/slidemain.js"></script>
+<script src="/resources/home/js/slideMain.js"></script>
 <style>
 /* 테블릿용 메인페이지 스타일 지정(아래) 801px~무한대까지 재정의 */
 @media all and (min-width:801px) {

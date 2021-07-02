@@ -18,70 +18,39 @@ public class Lamda {
 	//스태틱 메서드 쓰는 이유 클래스를 컴파일하면 메모리에 등록되는 메서드를 뜻함
 	//스태틱을 지정하지 않으면 런타임시 메모리에 등록됨
 	// 스태틱 메서드 : 이클래스에서만 메서드로 사용하겠다고 명시
-	public static int plus(int x,int y,String lambda) {
-		int result=0;
+	public static int plus(int x, int y, String lambda) {
+		int result = 0;
+		//람다식 적용전
 		if(lambda.equals("nonLambda")) {
-		IntSupplier intSupplier = new IntSupplier() {
-			@Override
-			public int getAsInt() {
-				int sum = x+y;
+			IntSupplier2 intSupplier = new IntSupplier2() {
+				@Override
+				public int getAsInt() {
+					int sum = x + y;
+					return sum;
+				}
+
+				@Override
+				public int getAsInt2(int x, int y) {
+					int product = x * y;
+					return product;
+				}
+				
+			};
+			result = intSupplier.getAsInt();
+		}
+		//람다식 적용후, 제약이 있음. 클객스의  메서드가 1개인 객체만 람다식으로 가능.
+		//(매개변수) -> ~ 자바일때 형식, 람다식 익명함수에서 매개변수 1개일때는 괄호()생략가능.
+		//(무명함수) => ~ 자바스크립트일때 람다식
+		if(lambda.equals("lambda")){
+			IntSupplier intSupplier = () -> x + y;//뒤 쪽 항부터 해석 x+y를 실행합니다.
+			/*
+			{
+				int sum = x + y;
 				return sum;
-			}
-		};
-		result = intSupplier.getAsInt();
-		
-		}if (lambda.equals("lambda")) {
-		IntSupplier intSupplier = () -> {
-			int sum = x+y;
-			return sum;
-		};
-		result = intSupplier.getAsInt();
+			};
+			*/
+			result = intSupplier.getAsInt();//객체의 메서드가 1개를 호출
 		}
-		return result;
-	}
-	public String memeberOne() {
-		String result = "";
-		IF_MemberService memberService = new IF_MemberService() {
-
-			@Override
-			public List<MemberVO> selectMember(PageVO pageVO) throws Exception {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public int countMember(PageVO pageVO) throws Exception {
-				// TODO Auto-generated method stub
-				return 0;
-			}
-
-			@Override
-			public void insertMember(MemberVO memberVO) throws Exception {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void deleteMember(String user_id) throws Exception {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public MemberVO readMember(String user_id) throws Exception {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public void updateMember(MemberVO memberOne) throws Exception {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			
-		}
-		result = memberVO.getName();
 		return result;
 	}
 	public static void main(String[] args) {
