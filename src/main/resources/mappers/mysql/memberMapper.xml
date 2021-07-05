@@ -1,101 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<!-- 
-memberMapper.xml: 회원관리에대한 모든 쿼리를 모아서 관리하는 역할을 
-마이바티스 세션팩토리(Mybatis SessionFactory클래스)에서 쿼리를 생성 합니다. 
-이 쿼리를 호출할때 사용하는 이름이 namespace값이 됩니다.
-이름이 memberMapper안에 쿼리가 여러개 만들게 되는데, 여러개를 구분해서 호출할때 사용하는 id
+<!-- Ctrl+Space 누르시면 입력힌트가 출력 -->
+<!-- 이 매퍼는 2개의 객체를 바인딩시키는 것을 매핑이라고 합니다.
+이 매퍼는 회원관리 CRUD(입력,조회,수정,삭제)를 처리하는 쿼리를 모아놓은 파일.
+이번주 조회기능중 검색기능, 페이징처리기능을 실습하시는 것이 핵심.
  -->
 <mapper namespace="memberMapper">
-<!-- 아래 반환값이 MemberVO클래스형이면, select * from 쿼리에서 결과값에 [자동바인딩]됩니다. 
-단, 멤버클래스의 멤버변수 값이 tbl_member 테이블의 필드명과 일치하게 만들어야 하는 조건.
+<!-- 공통쿼리 마이바티스 include문사용, 
+if조건문에서 test조건부분에 문자열비교시 '문자열'.toString()형변환함수는 필수 필요 없으면 비교불가. 
+다음처럼 비교해도 가능합니다. test="''.equals(search_type)", 지금사용X 스프링클래스에서 사용O
+참고로 equals메서드를 사용하면 null비교까지 포함 됩니다.
 -->
-<!-- 
- user_id = 'admin' where 조건에서 완전일치 = 이퀄입니다.
- 일부분 일치는 라이크쿼리 like(LIKE) + 검색어% 사용합니다.
- 앞뒤로 일치하는 LIKE쿼리를 사용할 때는 %검색어%
- user_id like '%user_2020%'
--->
-<!-- 공통사용하는 쿼리 모음 -->
 <sql id="sqlWhere">
-	<if test="search_type != '' and search_type !=null">
-		where
-		<if test="search_type == 'all'.toString()">
-				user_id like concat('%',#{search_keyword},'%')
-				or
-				user_name like concat('%',#{search_keyword},'%')
-		</if>
-		<if test="search_type == 'user_id'.toString()">
-	 			user_id like concat('%',#{search_keyword},'%')
-	 	</if>
-	 	<if test="search_type == 'user_name'.toString()">
-	 			user_name like concat('%',#{search_keyword},'%')
-	 	</if>
-	</if>
+	<if test="search_type != '' and search_type != null">
+    WHERE 
+    	 <if test="search_type == 'all'.toString()">
+		    user_id LIKE '%'||#{search_keyword}||'%'
+		    OR user_name LIKE '%'||#{search_keyword}||'%'
+	     </if>
+	     <if test="search_type == 'user_id'.toString()">
+	     	user_id LIKE '%'||#{search_keyword}||'%'
+	     </if>
+	     <if test="search_type == 'user_name'.toString()">
+	     	user_name LIKE '%'||#{search_keyword}||'%'
+	     </if>
+    </if>
 </sql>
-<select id="countMember" resultType="int">
-select count(*) from tbl_member
-<include refid="sqlWhere"></include>
+<!-- jsp수정페이지에 수정할 내용을 입력하는 쿼리(아래) 
+사용자 정보 수정시 매번 암호를 넣지 않기 때문에, 조건을 달아서 암호변경값이 있을때만 수정되게 처리
+-->
+<update id="updateMember">
+	update tbl_member set
+	email = #{email},
+	enabled = #{enabled},
+	levels = #{levels},
+	point = #{point},
+	update_date = systimestamp,
+	<if test="user_pw != ''">
+	user_pw = #{user_pw},
+	</if>
+	user_name = #{user_name}
+	where user_id = #{user_id}
+</update>
+<!-- jsp상세보기에 출력할 내용을 뽑아내는 쿼리 -->
+<select id="readMember" resultType="com.edu.vo.MemberVO">
+select * from tbl_member where user_id = #{user_id}
 </select>
-<select id="selectMember" resultType="com.edu.vo.MemberVO">
-select * from tbl_member
-<include refid="sqlWhere"></include>
-order by reg_date desc
-limit #{queryStartNo}, #{queryPerPageNum}
-</select>
-
+<!-- jsp폼에서 전송받은 user_id값의 데이터를 이용해서 dB에 해당레코드를 삭제(아래) -->
+<delete id="deleteMember">
+delete from tbl_member where user_id = #{user_id}
+</delete>
+<!-- jsp폼에서 전송받은 memberVO객체의 데이터를 DB에 insert합니다(아래) -->
 <insert id="insertMember">
-INSERT INTO tbl_member (
-	user_id,
-	user_pw,
-	user_name,
-	email,
-	point,
-	enabled,
-	levels,
-	reg_date
-	) VALUES (
-	#{user_id},
-	#{user_pw},
-	#{user_name},
-	#{email},
-	#{point},
-	#{enabled},
-	#{levels},
-	now()
+insert into tbl_member 
+(
+user_id,
+user_pw,
+user_name,
+email,
+point,
+enabled,
+levels,
+reg_date
+) 
+values 
+(
+#{user_id},
+#{user_pw},
+#{user_name},
+#{email},
+#{point},
+#{enabled},
+#{levels},
+systimestamp
 )
 </insert>
-<!-- jsp에서 변수표현 EL표기법 ${변수명}, 마이바티스에서는 변수표현을 #{변수명} -->
-<!-- 마이바티스의 장점, 쿼리안쪽에 조건을 달 수 가 있습니다. -->
-<update id="updateMember">
-UPDATE tbl_member 
-SET 
-    user_name = #{user_name},
-    <if test="user_pw !=''">
-    user_pw = #{user_pw},
-    </if>
-    email = #{email},
-    point = #{point},
-    enabled = #{enabled},
-    levels = #{levels},
-    update_date = now()
-WHERE
-    user_id = #{user_id}
-</update>
-
-<delete id="deleteMember">
-DELETE FROM tbl_member WHERE user_id=#{user_id}
-</delete>
-
-<select id="readMember" resultType="com.edu.vo.MemberVO">
-SELECT * FROM tbl_member WHERE user_id=#{user_id}
+<!-- 현재처럼 무조건 갯수를 구하면, 검색결과에 대한 페이징 값을 구할 수 없음.
+그래서 검색이 포함된 카우트개수가 나와함. 아래쿼리는 검색한 전체개수를 구한쿼리 
+이 결과를 PageVO클래스의 calcPage()메서드 사용 -->
+<select id="countMember" resultType="int">
+	select count(*) from tbl_member
+	<include refid="sqlWhere" />
 </select>
-
-<select id="testJob" resultType="com.edu.vo.MemberVO">
-<![CDATA[
-SELECT * FROM 
-TBL_MEMBER 
-WHERE UPDATE_DATE < DATE_ADD(now(),INTERVAL-6 MONTH)
+<!-- pageVO 받아서 처리하는 조회 쿼리 -->
+<select id="selectMember" resultType="com.edu.vo.MemberVO">
+SELECT TableB.* FROM
+(
+    SELECT ROWNUM AS RNUM, TableA.* FROM
+    (
+        SELECT * FROM tbl_member
+        <include refid="sqlWhere" />
+        ORDER BY reg_date DESC
+    ) TableA
+<![CDATA[ 
+    WHERE ROWNUM <= #{queryStartNo}+#{queryPerPageNum}
+) TableB WHERE TableB.RNUM > #{queryStartNo}
 ]]>
 </select>
 </mapper>

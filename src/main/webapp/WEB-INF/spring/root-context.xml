@@ -16,9 +16,9 @@
 				
 				<value>classpath:/properties/cloud.properties</value>
 				
-				 <!-- 
-				<value>classpath:/properties/hsql.properties</value>
-				 -->
+				
+				<!-- <value>classpath:/properties/hsql.properties</value> -->
+				
 			</list>
 		</property>
 	</bean>
