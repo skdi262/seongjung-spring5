@@ -321,8 +321,9 @@ var replyList = function() {
 				printPagingList(result.pageVO, ".pagination");
 			}
 		},
-		error:function() {
-			alert("RestAPI서버가 작동하지 않습니다. 다음에 이용해 주세요.");
+		error:function(result) {
+			alert(result.responseText);
+			alert("RestAPI서버가 작동하지 않습니다. 다음에 이용해 주세요.1");
 		}
 	});
 };
@@ -362,7 +363,7 @@ $(document).ready(function(){
 				}
 			},
 			error:function() {
-				alert("RestAPI서버가 작동하지 않습니다. 잠시 후 이용해 주세요.")
+				alert("RestAPI서버가 작동하지 않습니다. 잠시 후 이용해 주세요.2")
 			}
 		});		
 	});
@@ -388,7 +389,7 @@ $(document).ready(function(){
 				}
 			},
 			error:function() {
-				alert("RestAPI서버가 작동하지 않습니다. 다음에 시도해 주세요.");
+				alert("RestAPI서버가 작동하지 않습니다. 다음에 시도해 주세요.3");
 			}
 		});
 		
@@ -436,7 +437,7 @@ $(document).ready(function(){
 				replyList();
 			},
 			error:function() {
-				alert("RestAPI서버가 작동하지 않습니다. 잠시 후 이용해 주세요.")
+				alert("RestAPI서버가 작동하지 않습니다. 잠시 후 이용해 주세요.0")
 			}
 		});
 	});

@@ -55,7 +55,11 @@ public class AdminController {
 	//게시물 등록을 POST로 처리 합니다.
 	@RequestMapping(value="/admin/board/board_insert", method=RequestMethod.POST)
 	public String board_insert(@RequestParam("file")MultipartFile[] files,BoardVO boardVO) throws Exception {
+		//위 메서드의 BoardVO boardVO 파싱=>내부작동은 다음처럼 됨 @RequestParam("title") String title, @RequestParam("content") String content, @RequestParam("writer") String writer ...
 		//신규 등록이라서 기존 첨부파일 불러오는 로직은 필요없음.
+		//AttachVO테이블에 가로데이터를 세로데이터로 입력하기 위해서...
+		//save_file_names[] = ["uuid1.jpg","uuid2.jpg"]
+		//real_file_names[] = ["슬라이드1.jpg","슬라이드2.jpg"]
 		String[] save_file_names = new String[files.length];
 		String[] real_file_names = new String[files.length];
 		int index = 0;//첨부파일이 1개이상일때 반복변수로 사용
@@ -288,6 +292,8 @@ public class AdminController {
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			String encPassword = passwordEncoder.encode(rawPassword);
 			memberVO.setUser_pw(encPassword);
+			//스프링시큐리티 내장클래스에서 user_pw(admin1234)와 password(해시값)비교함수
+			//passwordEncoder.matches("admin1234", password);
 		}
 		memberService.updateMember(memberVO);//반환값이 없습니다.
 		//redirect로 페이지를 이동하면, model로 담아서 보낼수 없습니다. 쿼리스트링(URL?)으로 보냅니다.
@@ -355,11 +361,30 @@ public class AdminController {
 		//model.addAttribute("pageVO", pageVO);//나중에 @ModelAttribute로 대체
 		return "admin/member/member_list";//jsp파일 상대경로
 	}
-	//URL요청 경로는 @RequestMapping 반드시 절대경로로 표시
+	//URL요청 경로는 @RequestMapping 반드시 절대경로로 표시. 개발자A 작업
 	@RequestMapping(value="/admin", method=RequestMethod.GET)
 	public String admin(Model model) throws Exception {//에러발생시 Exception클래스의 정보를 스프링으로 보내게 됩니다.		
 		//아래 상대경로에서 /WEB-INF/views/폴더가 루트(생략prefix접두어) 입니다.
 		//아래 상대경로 home.jsp에서 .jsp (생략suffix접미어) 입니다.
+		PageVO pageVO = new PageVO();//최소 2개의 기본값이 필수
+		pageVO.setQueryPerPageNum(4);
+		pageVO.setPage(1);
+		List<MemberVO> latestMembers = memberService.selectMember(pageVO);
+		model.addAttribute("latestMembers", latestMembers);
 		return "admin/home";//리턴 경로=접근경로는 반드시 상대경로로 표시
+	}
+	//메인페이지 또는 대시보드에 최신 테이블리스트를 출력하는 방법 2가지(위,model사용
+	//아래, <c:import방식 : 최신 게시물용도로 사용 //페이지안에서 컴파일된 다른 페이지를 불러올 수 있음. 개발자B 작업
+	@RequestMapping(value="/admin/latest/latest_board",method=RequestMethod.GET)
+	public String latest_board(@RequestParam(value="board_name",required=false) String board_name, @RequestParam(value="board_type",required=false) String board_type,Model model) throws Exception {
+		PageVO pageVO = new PageVO();
+		pageVO.setPage(1);
+		pageVO.setQueryPerPageNum(5);
+		pageVO.setBoard_type(board_type);
+		List<BoardVO> latestBoard = boardService.selectBoard(pageVO);
+		model.addAttribute("board_name", board_name);
+		model.addAttribute("board_type", board_type);
+		model.addAttribute("latestBoard", latestBoard);
+		return "admin/latest/latest_board";//.jsp생략, 최신게물을 출력하는 결과페이지 생성
 	}
 }
