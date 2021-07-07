@@ -24,7 +24,7 @@
 <link rel="stylesheet" href="/resources/home/css/pc.css">
 <script src="/resources/home/js/main.js"></script>
 <!-- 메인슬라이드 코어 임포트 -->
-<script src="/resources/home/js/slideMain.js"></script>
+<script src="/resources/home/js/slidemain.js"></script>
 <style>
 /* 테블릿용 메인페이지 스타일 지정(아래) 801px~무한대까지 재정의 */
 @media all and (min-width:801px) {
@@ -81,7 +81,7 @@ if("${msg}" != "") {
 				</ul>	
 				<nav>
 				<ul class="gnb clear">
-					<li><a href="/resources/home/index.html"  class="openAll1">샘플홈페이지</a>
+					<li><a href="/resources/home/index.html" target="_blank" class="openAll1">샘플홈페이지</a>
 
                         <div class="gnb_depth gnb_depth2_1">
                             <ul class="submenu_list">
@@ -89,12 +89,12 @@ if("${msg}" != "") {
                             </ul>
                         </div>
 					</li>
-					<li><a href="/home/board/board_list?board_type=noitce&search_keyword=" class="openAll2">커뮤니티</a>
+					<li><a href="/home/board/board_list?board_type=notice&search_keyword=" class="openAll2">커뮤니티</a>
 				        <div class="gnb_depth gnb_depth2_2">
                             <ul class="submenu_list">
-                            <c:forEach var="boardTypeVO" items="${listBoardTypeVO}">
-                                <li><a href="/home/board/board_list?board_type=${boardTypeVO.board_type}&search_keyword=">${boardType.board_name}</a></li>
-                                </c:forEach>
+                            	<c:forEach var="boardTypeVO" items="${listBoardTypeVO}">
+	                            	<li><a href="/home/board/board_list?board_type=${boardTypeVO.board_type}&search_keyword=">${boardTypeVO.board_name}</a></li>
+                            	</c:forEach>
                             </ul>
                         </div>
 					</li>
