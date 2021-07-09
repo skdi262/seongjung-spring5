@@ -27,7 +27,7 @@
 					</li>
 					<li class="clear">
 						<label for="name_lbl" class="tit_lbl pilsoo_item">작성자명</label>
-						<div class="app_content"><input readonly value="${session_userid}" type="text" name="writer" class="w100p" id="name_lbl" placeholder="이름을 입력해주세요" required/></div>
+						<div class="app_content"><input readonly value="${boardVO.writer}" type="text" name="writer" class="w100p" id="name_lbl" placeholder="이름을 입력해주세요" required/></div>
 					</li>
 					<li class="clear">
 						<label for="file_lbl" class="tit_lbl">첨부파일</label>
@@ -53,14 +53,14 @@
 						</c:forEach>					
 					</li>
 					<script>
-$(document).ready(function(){
-	$(".btn_file_delete").click(function(){
-		//alert("삭제버튼 확인");화면이 바뀌지 않고, 현재 선택한 파일만 삭제하는 경우
-		var this_btn = $(this);//2개이상인 버튼에서 선택한 버튼을 구별하는 용도 this를 사용
-		var delete_file_name = this_btn.parent().find("input[name='delete_file_name']").val();
-		if(delete_file_name == "") {//!= 테스트OK -> == 변경
-			alert("선택한 파일이 없습니다.");
-			return true; 
+					$(document).ready(function(){
+						$(".btn_file_delete").click(function(){
+							//alert("삭제버튼 확인");화면이 바뀌지 않고, 현재 선택한 파일만 삭제하는 경우
+							var this_btn = $(this);//2개이상인 버튼에서 선택한 버튼을 구별하는 용도 this를 사용
+							var delete_file_name = this_btn.parent().find("input[name='delete_file_name']").val();
+							if(delete_file_name == "") {//!= 테스트OK -> == 변경
+								alert("선택한 파일이 없습니다.");
+								return true; 
 							}//아래 내용이 진행 않되고 종료함.
 							$.ajax({
 								url:"/file_delete?save_file_name="+delete_file_name,

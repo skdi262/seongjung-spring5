@@ -3,11 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../include/header.jsp" %>
 
-
 	<!-- 메인콘텐츠영역 -->
     <div id="container">
 		<!-- 메인상단위치표시영역 -->
-<%@ include file="./board_header.jsp" %>
+		<%@ include file="./board_header.jsp" %>
 		<!-- //메인상단위치표시영역 -->
 
 		<!-- 메인본문영역 -->
@@ -30,6 +29,7 @@
 					<tr>
 						<th scope="col">번호</th>
 						<th scope="col">제목</th>
+						<th scope="col">작성자</th>
 						<th scope="col">조회수</th>
 						<th scope="col">작성일</th>
 					</tr>
@@ -45,6 +45,7 @@
 						<a href="/home/board/board_view?bno=${boardVO.bno}&page=${pageVO.page}&search_type=${pageVO.search_type}">
 						${boardVO.title}
 						</a> </td>
+						<td>${boardVO.writer}</td>
 						<td>${boardVO.view_count}</td>
 						<td>
 						<fmt:formatDate pattern="yyyy-MM-dd" value="${boardVO.reg_date}"/> 
@@ -79,20 +80,21 @@
 			</div>
 			<!-- //페이징처리영역 -->
 			<p class="btn_line">
-			<!-- 등록버튼은 로그인한 사용자만 -->
+			<!-- 등록버튼은 로그인한 사용자만 보이도록 -->
 			<c:if test="${session_enabled}">
-			<!-- 게시판이 공지사항일 때는 관리자만 -->
-			<c:choose>
-			<c:when test="${session_levels eq 'ROLE_ADMIN'}">
-				<a href="/home/board/board_insert_form" class="btn_baseColor">등록</a>
-			</c:when>
-			<c:otherwise>
-			<c:if test="${session_board_type ne 'notice'}">
-			    <a href="/home/board/board_insert_form" class="btn_baseColor">등록</a>
-			</c:if>
-			</c:otherwise>
-			</c:choose>
-			
+				<!-- 게시판이 공지사항일때는 관리자만 사용가능조건,공지사항외에는 로그인한 사용자는 글쓰기 기능 -->
+				<!-- 관리자일때, 일반사용자일때 1차조건, 2차조건 공지사항이 아닐때 -->
+				<c:choose>
+					<c:when test="${session_levels eq 'ROLE_ADMIN'}">
+						<a href="/home/board/board_insert_form" class="btn_baseColor">등록</a>
+					</c:when>
+					<c:otherwise>
+						<c:if test="${session_board_type ne 'notice'}">
+							<a href="/home/board/board_insert_form" class="btn_baseColor">등록</a>
+						</c:if>	
+					</c:otherwise>
+				</c:choose>
+							
 			</c:if>
 			</p>
 		</div>

@@ -4,6 +4,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.UUID;
@@ -21,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,6 +50,9 @@ public class CommonUtil {
 	private IF_MemberService memberService;//스프링빈을 주입받아서(DI) 객체준비
 	@Inject
 	private IF_BoardDAO boardDAO;
+	
+	//헤로쿠클라우드에 30분휴면상태를 깨우는 기능추가->root-context에서 지정한 스케줄러에서 20분간격으로 호출됨
+	
 	
 	//첨부파일 업로드/다운로드/삭제/인서트/수정에 모두 사용될 저장경로를 1개지정해서 [전역]으로사용
 	@Resource(name="uploadPath")
@@ -164,7 +170,7 @@ public class CommonUtil {
 		return checkImgArray;
 	}
 	
-	//RestAPI서버 맛보기ID중복체크(제대로 만들면 @RestController 사용)
+	//관리자단에서 사용:RestAPI서버 맛보기ID중복체크(제대로 만들면 @RestController 사용)
 	@RequestMapping(value="/id_check", method=RequestMethod.GET)
 	@ResponseBody //반환받은 값의 헤더값을 제외하고, 내용(body)만 반환하겠다는 명시
 	public String id_check(@RequestParam("user_id")String user_id) throws Exception {
@@ -178,6 +184,19 @@ public class CommonUtil {
 			}
 		}
 		return memberCnt;//0.jsp 이렇게 작동하지 않습니다. 이유는 @ResponseBody때문이고, RestAPI는 값만 반환
+	}
+	//사용자단에서 사용: JsonView방식으로 RestApi를 구현실습
+	@RequestMapping(value="/id_check_2010",method=RequestMethod.GET)
+	public String id_check_2010(@RequestParam("user_id")String user_id,Model model) throws Exception {
+		String memberCnt = "1";//중복ID가 있는것을 기본값으로 지정
+		if(!user_id.isEmpty()) {
+			MemberVO memberVO = memberService.readMember(user_id);
+			if(memberVO == null) {//중복ID가 없다면
+				memberCnt = "0";
+			}
+		}
+		model.addAttribute("memberCnt", memberCnt);//자바List,VO,String객체를 json객체로 반환함.
+		return "jsonView";//jsp파일명 대신에 servlet에서 정의한 스프링빈 ID명을 적으면, json객체로 결과를 반환합니다.
 	}
 
 	//파일 업로드 공통 메서드(Admin컨트롤러에서 사용 + Home컨트롤러에서도 사용)
