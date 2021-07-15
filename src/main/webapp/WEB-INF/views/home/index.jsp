@@ -106,7 +106,7 @@ $(document).ready(function() {
 						<div class="latest_img">
 						<c:choose>
 							<c:when test="${empty galleryVO.save_file_names[0]}">
-								<img class="img_topplace" src="/resources/home/img/no_image.png" alt="OOOO OOOOO"/>
+								<img class="img_topplace" src="/resources/home/img/no_image.jpg" alt="OOOO OOOOO"/>
 							</c:when>
 							<c:otherwise>
 								<img class="img_topplace" src="/image_preview?save_file_name=${galleryVO.save_file_names[0]}" alt="OOOO OOOOO"/>
