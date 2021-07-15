@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FilenameUtils;
@@ -213,5 +214,27 @@ public class CommonUtil {
 		File target = new File(uploadPath, saveFileName);
 		FileCopyUtils.copy(fileData, target);//파일이 물리적으로 폴더에 저장됨.
 		return saveFileName;//UUID로 생성된 식별값의 파일명 
+	}
+
+	public void profile_upload(String user_id, HttpServletRequest request, MultipartFile file) throws IOException {
+		// 첨부파일 업로드, 프로필이미지는 보안이 필요한 폴더가 아닌 누구나 접근이 가능해야함. resource플도에 업로드처리, 서버에 경로가 필요함
+		String folderPath = request.getServletContext().getRealPath("/resources/profile");	
+		File makeFolder = new File(folderPath);//공백 개체 생성
+		if(!makeFolder.exists()) {
+			makeFolder.mkdir();//여기서 신규폴더 생성
+		}
+		//연월 폴더 생성후 해당되는 연월에 업로드된 파일을 폴더로 관리
+		byte[] fileData = file.getBytes();
+		File target = new File(makeFolder,user_id+".png");
+		FileCopyUtils.copy(fileData,target);//여기서 첨부파일 생성
+	}
+
+	public void profile_delete(String user_id, HttpServletRequest request) {
+		// 이미지가 프로필 폴더에 존재할 시 삭제
+		String folderPath = request.getServletContext().getRealPath("/resources/profile");
+		File target = new File(folderPath,user_id+".png");
+		if(target.exists()) {
+			target.delete();//프로필파일이 실제로 지워짐
+		}
 	}
 }

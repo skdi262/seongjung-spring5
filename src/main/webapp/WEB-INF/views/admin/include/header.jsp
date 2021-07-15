@@ -33,7 +33,7 @@
     <!-- Left navbar links 왼쪽 햄버거 메뉴와 Home링크메뉴 -->
     <ul class="navbar-nav">
       <li class="nav-item"> 
-        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        <a class="nav-link" data-widget="pushmenu" href="/admin" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="/admin" class="nav-link">Home</a>
