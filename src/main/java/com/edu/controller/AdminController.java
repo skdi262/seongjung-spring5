@@ -161,13 +161,24 @@ public class AdminController {
 	}
 	//게시물 삭제는 URL쿼리스트링으로 접근하지 않고, post방식으로 처리.
 	@RequestMapping(value="/admin/board/board_delete", method=RequestMethod.POST)
-	public String board_delete(HttpServletRequest request,MemberVO memberVO,PageVO pageVO) throws Exception {
+	public String board_delete(@RequestParam("bno")Integer bno,PageVO pageVO) throws Exception {
 		//디버그 삭제할 전역변수 경로 확인
 		logger.info("디버그 전역업로드경로: " + commonUtil.getUploadPath());
-		String user_id=memberVO.getUser_id();
-		memberService.deleteMember(user_id);
-		commonUtil.profile_delete(user_id, request);
-		return "redirect:/admin/board/board_list?";
+		//DB테이블삭제한 이후, 첨부파일부터 있으면 삭제처리. 자바에서 파일핸들링처리
+		//기존 등록된 첨부파일 폴더에서 삭제할 UUID(고유한식별값생성클래스)이름을 추출합니다.(아래)
+		List<AttachVO> delFiles = boardService.readAttach(bno);//해당게시물의 모든 첨부파일 delFiles 에 임시로 담아 놓습니다.
+		boardService.deleteBoard(bno);//첨부파일테이블삭제 후 게시물 테이블 삭제
+		//물리적으로 파일삭제 처리 시작, 향상된 for문사용
+		for(AttachVO file_name:delFiles) {
+			//File클래스는 ("파일의 업로드된 위치","삭제할 파일명");
+			File target = new File(commonUtil.getUploadPath(),file_name.getSave_file_name());
+			if(target.exists()) {
+				target.delete();//물리적인 파일 지우는 명령
+			}
+		}
+		
+		String queryString = "page="+pageVO.getPage()+"&search_type="+pageVO.getSearch_type();
+		return "redirect:/admin/board/board_list?"+queryString;
 	}
 	//게시물 상세보기 폼으로 접근하지 않고 URL쿼리 스트링으로 접근(GET)
 	@RequestMapping(value="/admin/board/board_view", method=RequestMethod.GET)
@@ -277,10 +288,11 @@ public class AdminController {
 	}
 	//아래 경로는 수정처리를 호출=DB를 변경처리함.
 	@RequestMapping(value="/admin/member/member_update", method=RequestMethod.POST)
-	public String updateMember(HttpServletRequest request,MemberVO memberVO, MultipartFile file,PageVO pageVO) throws Exception {
-		if(!file.getOriginalFilename().isEmpty()) {
+	public String updateMember(HttpServletRequest request, MultipartFile file,MemberVO memberVO, PageVO pageVO) throws Exception {
+		//프로필 이미지 처리 추가
+		if(!file.getOriginalFilename().isEmpty()) {//신규파일이 없으면 
 			String user_id = memberVO.getUser_id();
-			commonUtil.profile_upload(user_id,request,file);
+			commonUtil.profile_upload(user_id, request, file);
 		}
 		//update 서비스만 처리하면 끝
 		//업데이트 쿼리서비스 호출하기 전 스프링시큐리티 암호화 적용합니다.
@@ -308,7 +320,7 @@ public class AdminController {
 		return "admin/member/member_update";//상대경로
 	}
 	@RequestMapping(value="/admin/member/member_delete", method=RequestMethod.POST)
-	public String deleteMember(MemberVO memberVO) throws Exception {
+	public String deleteMember(HttpServletRequest request, MemberVO memberVO) throws Exception {
 		logger.info("디버그: " + memberVO.toString());
 		//MemberVO memberVO는 클래스형 변수: String user_id 스트링형 변수 같은 방식.
 		String user_id = memberVO.getUser_id();
@@ -317,6 +329,8 @@ public class AdminController {
 		//return "admin/member/member_list";//삭제후 이동할 jsp경로지정
 		//위 방식대로하면, 새로고침하면, /admin/member/member_delete 계속 실행됩니다.-사용자단에서 실습
 		//게시판테러상황을 방지하기 위해서, 쿼리를 작업 후 이동할때는 redirect(다시접속)라는 명령을 사용합니다.
+		//DB테이블 삭제 후 회원프로필 이미지가 exist()==true면 삭제하는 로직 추가
+		commonUtil.profile_delete(user_id,request);
 		return "redirect:/admin/member/member_list";//단,redirect는 절대경로를 사용.
 	}
 	@RequestMapping(value="/admin/member/member_view", method=RequestMethod.GET)
